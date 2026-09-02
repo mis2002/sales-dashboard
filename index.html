@@ -79,7 +79,25 @@
   .weekstrip-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
   .weekstrip-head h2{font-size:13.5px;margin:0;font-weight:700;}
   .weekstrip-head .desc{font-size:11px;color:var(--ink-dim);}
-  .weekstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .weekstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+
+  /* Tabs */
+  .tabnav{display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--line);}
+  .tabnav button{background:none;border:none;color:var(--ink-dim);padding:10px 4px;margin-right:18px;font-family:var(--font);
+    font-size:13.5px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;}
+  .tabnav button.active{color:var(--teal);border-bottom-color:var(--teal);}
+
+  .util-btn{background:var(--panel-2);border:1px solid var(--line);color:var(--ink);padding:8px 12px;border-radius:8px;
+    font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;}
+  .util-btn:hover{background:#233241;}
+  .util-btn.saved{background:rgba(74,222,128,.18);border-color:var(--good);color:var(--good);}
+
+  .kpi-mini-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px;}
+  .kpi-mini{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
+  .kpi-mini .lbl{font-size:10px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.04em;}
+  .kpi-mini .val{font-size:16px;font-weight:800;margin-top:3px;}
+  .flag-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
+  .flag-row .amt{color:var(--coral);font-weight:700;}
   .wk-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;min-width:0;}
   .wk-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--wc,var(--teal));}
   .wk-card .wk-title{font-size:12.5px;font-weight:700;margin-bottom:2px;}
@@ -172,6 +190,8 @@
     </div>
     <div class="sync-box">
       <div class="sync-status" id="syncStatus"><span class="live-dot" id="liveDot"></span>Connecting…</div>
+      <button class="util-btn" id="saveViewBtn" title="Remember current filters &amp; chart types for next time">💾 Save View</button>
+      <button class="util-btn" id="resetViewBtn" title="Clear saved filters and go back to defaults">↺ Reset</button>
       <button class="refresh-btn" id="refreshBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
         Refresh
@@ -183,6 +203,11 @@
   <div class="loading-screen" id="loadingScreen"><div class="spinner"></div>Loading data from Google Sheets…</div>
 
   <div id="dashboardBody" style="display:none">
+
+    <div class="tabnav">
+      <button data-tab="main" class="active">📊 Main Dashboard</button>
+      <button data-tab="bi">🔎 BI Insights</button>
+    </div>
 
     <div class="filterbar">
       <div class="filter-block">
@@ -239,9 +264,11 @@
       </div>
     </div>
 
+    <div id="mainTab">
+
     <div class="weekstrip-head">
-      <h2>Last 4 weeks — auto-updating</h2>
-      <span class="desc">Always shows the most recent 4 weeks in the sheet, week-over-week % change</span>
+      <h2 id="weekStripTitle">Last 4 weeks — auto-updating</h2>
+      <span class="desc" id="weekStripDesc">Always shows the most recent 4 weeks in the sheet, week-over-week % change</span>
     </div>
     <div class="weekstrip" id="weekStrip"></div>
 
@@ -265,7 +292,7 @@
     <div class="panel">
       <div class="panel-head">
         <div>
-          <h2>Daily trend</h2>
+          <h2 id="trendTitle">Sales trend</h2>
           <p class="desc" id="trendDesc">Filtered period, day by day</p>
         </div>
         <div class="chart-toggle" data-target="trend">
@@ -283,7 +310,7 @@
         <div class="panel-head">
           <div>
             <h2>Week-over-week comparison</h2>
-            <p class="desc">Weeks present in the current filter</p>
+            <p class="desc" id="wowDesc">Weeks present in the current filter</p>
           </div>
           <div class="chart-toggle" data-target="wow">
             <button data-type="bar" class="active">Bar</button>
@@ -313,7 +340,7 @@
       <div class="panel-head">
         <div>
           <h2>Salesperson performance</h2>
-          <p class="desc">Top 8 performers in the current filter</p>
+          <p class="desc" id="spDesc">Top 8 performers in the current filter</p>
         </div>
         <div class="chart-toggle" data-target="sp">
           <button data-type="stacked" class="active">Stacked</button>
@@ -329,20 +356,132 @@
       <div class="panel-head">
         <div>
           <h2>Top customers</h2>
-          <p class="desc">Ranked by net sales, current filter</p>
+          <p class="desc" id="custDesc">Ranked by net sales, current filter</p>
         </div>
       </div>
       <div class="table-scroll">
       <table>
         <thead><tr>
           <th>#</th><th>Customer</th><th>Type</th><th>Salesperson</th>
-          <th style="text-align:right">Invoices</th><th style="text-align:right">Net sales</th>
-          <th style="text-align:right">GP %</th><th>Share</th>
+          <th style="text-align:right">Invoices</th><th style="text-align:right" id="custMetricHead">Net sales</th>
+          <th style="text-align:right">Profit</th><th style="text-align:right">GP %</th><th>Share</th>
         </tr></thead>
         <tbody id="custTable"></tbody>
       </table>
       </div>
     </div>
+
+    </div><!-- /mainTab -->
+
+    <div id="biTab" style="display:none">
+
+      <div class="kpi-mini-row" id="biTopKpis"></div>
+
+      <div class="grid3">
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Revenue vs Tax vs Profit</h2>
+            <p class="desc">Per week — see how much of billed value is tax vs your actual margin</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biRevTaxProfit"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2 id="biInvCountTitle">Invoice count trend</h2>
+            <p class="desc">How many bills were raised, over time</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biInvoiceCount"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Profit contribution by salesperson</h2>
+            <p class="desc">Share of total profit, current filter</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biProfitPie"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Top 5 / Bottom 5 salespersons</h2>
+            <p class="desc" id="biRankDesc">Ranked by current metric</p>
+          </div></div>
+          <div class="table-scroll">
+          <table><thead><tr><th>#</th><th>Salesperson</th><th style="text-align:right">Value</th><th style="text-align:right">Invoices</th></tr></thead>
+          <tbody id="biTop5"></tbody></table>
+          </div>
+          <p class="hover-hint" style="margin-top:14px;font-weight:700;color:var(--ink-dim)">BOTTOM 5</p>
+          <div class="table-scroll">
+          <table><thead><tr><th>#</th><th>Salesperson</th><th style="text-align:right">Value</th><th style="text-align:right">Invoices</th></tr></thead>
+          <tbody id="biBottom5"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Repeat vs one-time customers</h2>
+            <p class="desc">By invoice count per customer, current filter</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biRepeatPie"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Customer profit-margin leaderboard</h2>
+            <p class="desc">Top 10 by GP % (customers with 2+ invoices)</p>
+          </div></div>
+          <div class="table-scroll">
+          <table><thead><tr><th>#</th><th>Customer</th><th style="text-align:right">Net</th><th style="text-align:right">GP %</th></tr></thead>
+          <tbody id="biMarginTable"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Profit % per invoice — distribution</h2>
+            <p class="desc">How many invoices fall in each margin band</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biProfitDist"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Zero / low-profit orders</h2>
+            <p class="desc" id="biFlagDesc">Invoices with 0% or negative margin</p>
+          </div></div>
+          <div id="biFlagList"></div>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Salesperson efficiency</h2>
+            <p class="desc">Average profit per order — rewards quality, not just volume</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biEfficiency"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div>
+            <h2>Tax collected</h2>
+            <p class="desc" id="biTaxDesc">Trend over the current filter</p>
+          </div></div>
+          <div class="chart-box"><canvas id="biTaxTrend"></canvas></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div>
+          <h2>Unusually large invoices</h2>
+          <p class="desc" id="biOutlierDesc">Statistical outliers worth a quick sanity check</p>
+        </div></div>
+        <div id="biOutlierList"></div>
+      </div>
+
+    </div><!-- /biTab -->
 
     <footer>Weeks run Monday–Saturday · Values in INR · Data pulled live from your Google Sheet</footer>
   </div>
@@ -480,7 +619,8 @@ async function fetchSheetRows(){
     salesperson: colIndex(cols, ['salesperson','sales person']),
     ordertype: colIndex(cols, ['order types','order type','ordertype']),
     companysales: colIndex(cols, ['company sales','companysales']),
-    profit: colIndex(cols, ['profit'])
+    profit: colIndex(cols, ['profit']),
+    midap: colIndex(cols, ['midap id no','midap id','midap'])
   };
   if(idx.date<0 || idx.net<0){
     throw new Error('Could not find the "Invoice Date" and/or "Amount Without Tax" columns on this tab. Check the column headers match your data sheet.');
@@ -504,7 +644,8 @@ async function fetchSheetRows(){
       profit: idx.profit>=0 ? (Number(get(idx.profit))||0) : 0,
       salesperson: ((get(idx.salesperson)||'Unknown')+'').trim() || 'Unknown',
       ordertype: ((get(idx.ordertype)||'Unknown')+'').trim().toUpperCase() || 'UNKNOWN',
-      companysales: ((get(idx.companysales)||'NO')+'').trim().toUpperCase()
+      companysales: ((get(idx.companysales)||'NO')+'').trim().toUpperCase(),
+      midap: idx.midap>=0 ? ((get(idx.midap)||'')+'').trim() : ''
     });
   });
   return rows;
@@ -571,7 +712,7 @@ function aggregateRows(rows){
   const gross = rows.reduce((s,r)=>s+r.total,0);
   const profit = rows.reduce((s,r)=>s+r.profit,0);
   const invoices = rows.length;
-  const byDayMap = {}, bySpMap = {}, byTypeMap = {}, byCustMap = {};
+  const byDayMap = {}, bySpMap = {}, byTypeMap = {}, byCustMap = {}, byCompMap = {};
   rows.forEach(r=>{
     const dk = r.date.toDateString();
     byDayMap[dk] = byDayMap[dk] || {date:r.date, label:r.date.toLocaleDateString('en-US',{weekday:'short'})+' '+r.date.getDate(), net:0, gross:0, profit:0, invoices:0};
@@ -588,7 +729,12 @@ function aggregateRows(rows){
     const c = r.customer;
     byCustMap[c] = byCustMap[c] || {name:c, net:0, gross:0, profit:0, invoices:0, ordertype:r.ordertype, salesperson:r.salesperson};
     byCustMap[c].net+=r.net; byCustMap[c].gross+=r.total; byCustMap[c].profit+=r.profit; byCustMap[c].invoices++;
+
+    const cs = r.companysales === 'YES' ? 'YES' : 'NO';
+    byCompMap[cs] = byCompMap[cs] || {companysales:cs, net:0, gross:0, profit:0, invoices:0};
+    byCompMap[cs].net+=r.net; byCompMap[cs].gross+=r.total; byCompMap[cs].profit+=r.profit; byCompMap[cs].invoices++;
   });
+  const customers = Object.values(byCustMap);
   return {
     net, gross, profit, invoices,
     gpPct: net ? (profit/net*100) : 0,
@@ -596,7 +742,9 @@ function aggregateRows(rows){
     byDay: Object.values(byDayMap).sort((a,b)=>a.date-b.date),
     bySp: Object.values(bySpMap).sort((a,b)=>b.net-a.net),
     byType: Object.values(byTypeMap),
-    topCustomers: Object.values(byCustMap).sort((a,b)=>b.net-a.net).slice(0,15)
+    byCompanySales: Object.values(byCompMap),
+    customers,
+    topCustomers: customers.slice().sort((a,b)=>b.net-a.net).slice(0,15)
   };
 }
 function growthSeries(values){
@@ -674,15 +822,43 @@ function renderMonthBanner(){
   banner.classList.add('show');
 }
 
+function weekStripScope(){
+  const spFiltered = baseFiltered(ALL_ROWS); // salesperson + order-type only, ignore the period mode itself
+  let ws, headTitle, headDesc;
+  if(state.mode==='MONTH' && state.monthKey){
+    const m = MONTHS.find(m=>m.key===state.monthKey);
+    ws = weeksInScope(spFiltered.filter(r=>r.monthKey===state.monthKey));
+    headTitle = `Weeks in ${m ? m.label : 'selected month'}`;
+    headDesc = 'All weeks that fall inside the selected month, week-over-week % change';
+  } else if(state.mode==='WEEK' && state.weekKey!=null){
+    const allWs = weeksInScope(spFiltered);
+    const idx = allWs.findIndex(w=>w.key===state.weekKey);
+    ws = idx>=0 ? allWs.slice(Math.max(0, idx-3), idx+1) : allWs.slice(-4);
+    headTitle = 'Selected week + 3 weeks before it';
+    headDesc = 'For context — where the selected week stands vs the weeks before it';
+  } else if(state.mode==='RANGE' && state.rangeStart && state.rangeEnd){
+    const s = new Date(state.rangeStart+'T00:00:00'), e = new Date(state.rangeEnd+'T23:59:59');
+    ws = weeksInScope(spFiltered.filter(r=>r.date>=s && r.date<=e)).slice(-8);
+    headTitle = 'Weeks in the selected range';
+    headDesc = 'Up to the most recent 8 weeks inside your custom range';
+  } else {
+    ws = WEEKS.slice(-4);
+    headTitle = 'Last 4 weeks — auto-updating';
+    headDesc = 'Always shows the most recent 4 weeks in the sheet, week-over-week % change';
+  }
+  return { ws, rows: spFiltered, headTitle, headDesc };
+}
+
 function renderWeekStrip(){
   const el = document.getElementById('weekStrip');
   const m = METRIC_INFO[state.metric].key;
-  const spFiltered = baseFiltered(ALL_ROWS);
-  const last4 = WEEKS.slice(-4);
-  if(!last4.length){ el.innerHTML = '<div class="wk-empty">No dated rows found yet.</div>'; return; }
-  const wkColors = ['#2DD4BF','#F5B454','#8B7FE8','#F0725A'];
-  const aggs = last4.map(w=>aggregateRows(spFiltered.filter(r=>r.weekKey===w.key)));
-  el.innerHTML = last4.map((w,i)=>{
+  const { ws, rows, headTitle, headDesc } = weekStripScope();
+  document.getElementById('weekStripTitle').textContent = headTitle;
+  document.getElementById('weekStripDesc').textContent = headDesc;
+  if(!ws.length){ el.innerHTML = '<div class="wk-empty">No dated rows found for this selection.</div>'; return; }
+  const wkColors = ['#2DD4BF','#F5B454','#8B7FE8','#F0725A','#5EA8F2','#E8C468','#C77DDE','#4ADE80'];
+  const aggs = ws.map(w=>aggregateRows(rows.filter(r=>r.weekKey===w.key)));
+  el.innerHTML = ws.map((w,i)=>{
     const agg = aggs[i];
     const prev = i>0 ? aggs[i-1] : null;
     const delta = prev && prev[m] ? ((agg[m]-prev[m])/prev[m]*100) : null;
@@ -720,6 +896,44 @@ function renderKPIs(){
 function weeksInScope(rows){
   const keys = [...new Set(rows.map(r=>r.weekKey))].sort((a,b)=>a-b);
   return keys.map(k=>WEEKS.find(w=>w.key===k)).filter(Boolean);
+}
+
+/* ---------------------- Unified period bucketing ----------------------
+   Every "over time" chart (trend, week-over-week, salesperson breakdown,
+   revenue/tax/profit, tax trend, invoice count) goes through this one
+   function. As more data gets added, it automatically coarsens the
+   granularity — daily while the range is small, weekly once it grows,
+   monthly once even weekly gets too wide — so nothing ever turns into a
+   cluttered, mixed-up mess of hundreds of bars/legend colors. Filters
+   (salesperson / order type / period mode) still apply exactly as before,
+   because this only decides *how* to group whatever rows are already
+   passed in — it never changes *which* rows are included. */
+const TREND_DAY_LIMIT = 40;   // more unique days than this -> switch to weekly
+const WEEK_BUCKET_LIMIT = 16; // more weeks than this -> switch to monthly
+
+function buildPeriodBuckets(rows){
+  const dayKeys = [...new Set(rows.map(r=>r.date.toDateString()))];
+  if(dayKeys.length <= TREND_DAY_LIMIT){
+    const days = dayKeys.map(dk=>rows.find(r=>r.date.toDateString()===dk).date).sort((a,b)=>a-b);
+    return { granularity:'Daily', defs: days.map(d=>({
+      label: d.toLocaleDateString('en-US',{weekday:'short'})+' '+d.getDate(),
+      match: r=>r.date.toDateString()===d.toDateString()
+    })) };
+  }
+  const scopeWeeksList = weeksInScope(rows);
+  if(scopeWeeksList.length <= WEEK_BUCKET_LIMIT){
+    return { granularity:'Weekly', defs: scopeWeeksList.map(w=>({
+      label: w.label, range: w.range, match: r=>r.weekKey===w.key
+    })) };
+  }
+  const monthKeys = [...new Set(rows.map(r=>r.monthKey))].sort();
+  return { granularity:'Monthly', defs: monthKeys.map(k=>{
+    const m = MONTHS.find(m=>m.key===k);
+    return { label: m ? m.label : k, match: r=>r.monthKey===k };
+  }) };
+}
+function bucketAggs(rows, buckets){
+  return buckets.defs.map(d=>({ label:d.label, range:d.range, agg: aggregateRows(rows.filter(d.match)) }));
 }
 
 function renderGrowthTable(){
@@ -774,6 +988,14 @@ function baseOpts(scaleExtras={}, legend=true, horizontal=false, tooltipFn=null)
     scales:{ x: Object.assign({ticks:{color:'#94A6B5',font:{size:10}},grid:{color:'#1C2A37'}}, scaleExtras.x||{}),
              y: Object.assign({ticks:{color:'#94A6B5',font:{size:10.5}},grid:{color:'#1C2A37'}}, scaleExtras.y||{}) } };
 }
+function singleItemOpts(scaleExtras={}, legend=true, horizontal=false, tooltipFn=null){
+  const tooltip = tooltipFn ? tooltipConfigFromFn(tooltipFn) : { callbacks:{ label: ctx => `${ctx.dataset.label}: ${fmtINR(ctx.parsed.y ?? ctx.parsed.x ?? ctx.parsed)}` } };
+  return { responsive:true, maintainAspectRatio:false, indexAxis: horizontal?'y':'x',
+    interaction:{mode:'nearest', intersect:true},
+    plugins:{ legend:{display:legend,position:'bottom',labels:{color:'#E9EEF2',font:{size:11},boxWidth:11}}, tooltip },
+    scales:{ x: Object.assign({ticks:{color:'#94A6B5',font:{size:10}},grid:{color:'#1C2A37'}}, scaleExtras.x||{}),
+             y: Object.assign({ticks:{color:'#94A6B5',font:{size:10.5}},grid:{color:'#1C2A37'}}, scaleExtras.y||{}) } };
+}
 function richTooltip(rec,label){
   const lines=[]; if(label) lines.push(label);
   lines.push(`Net (w/o GST): ${fmtINR(rec.net||0)}`,`With GST: ${fmtINR(rec.gross||0)}`,`Profit: ${fmtINR(rec.profit||0)}`);
@@ -786,15 +1008,22 @@ function renderTrend(type){
   const ctx = document.getElementById('trendChart');
   const mi = METRIC_INFO[state.metric];
   const rows = currentRows();
-  const agg = aggregateRows(rows);
-  const labels = agg.byDay.map(d=>d.label);
-  const data = agg.byDay.map(d=>d[mi.key]);
+  const buckets = buildPeriodBuckets(rows);
+  const items = bucketAggs(rows, buckets);
+  const labels = items.map(it => buckets.granularity==='Weekly' ? `${it.label} (${it.range})` : it.label);
+  const data = items.map(it => it.agg[mi.key]);
+
+  document.getElementById('trendTitle').textContent = buckets.granularity + ' trend';
+  document.getElementById('trendDesc').textContent = buckets.granularity==='Daily'
+    ? 'Filtered period, day by day'
+    : `Automatically grouped into ${buckets.granularity.toLowerCase()} buckets — the period covers a lot of ${buckets.granularity==='Weekly'?'days':'weeks'}, so daily bars would get too cluttered to read`;
+
   const isBar = type==='bar', fillArea = type==='area';
   charts.trend = new Chart(ctx, { type: isBar?'bar':'line',
     data:{ labels, datasets:[{label:mi.short, data, borderColor:mi.color,
       backgroundColor: isBar? mi.color : mi.colorSoft, fill:fillArea, tension:.3, borderWidth:2, borderRadius:isBar?4:0}]},
-    options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}}, false, false, (items)=>{
-      const idx=items[0].dataIndex; return richTooltip(agg.byDay[idx], labels[idx]);
+    options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,minRotation:0,autoSkip:true,maxTicksLimit:24}}}, false, false, (evts)=>{
+      const idx=evts[0].dataIndex; return richTooltip(items[idx].agg, labels[idx]);
     })
   });
 }
@@ -803,7 +1032,12 @@ function renderWow(type){
   const ctx = document.getElementById('wowChart');
   const mi = METRIC_INFO[state.metric];
   const rows = currentRows();
-  const scopeWeeks = weeksInScope(rows);
+  let scopeWeeks = weeksInScope(rows);
+  const truncated = scopeWeeks.length > WEEK_BUCKET_LIMIT;
+  if(truncated) scopeWeeks = scopeWeeks.slice(-WEEK_BUCKET_LIMIT);
+  document.getElementById('wowDesc').textContent = truncated
+    ? `Showing the most recent ${WEEK_BUCKET_LIMIT} weeks in the current filter (older weeks are still counted in the totals above, just not plotted here)`
+    : 'All three metrics available on hover';
   const aggs = scopeWeeks.map(w=>aggregateRows(rows.filter(r=>r.weekKey===w.key)));
   const labels = scopeWeeks.map(w=>w.label);
   const wkColors = ['#2DD4BF','#F5B454','#8B7FE8','#F0725A','#5EA8F2','#E8C468'];
@@ -821,9 +1055,11 @@ function renderSplit(type){
   const ctx = document.getElementById('splitChart');
   const mi = METRIC_INFO[state.metric];
   const rows = currentRows();
-  const scopeWeeks = weeksInScope(rows);
+  let scopeWeeks = weeksInScope(rows);
+  if(scopeWeeks.length > WEEK_BUCKET_LIMIT) scopeWeeks = scopeWeeks.slice(-WEEK_BUCKET_LIMIT);
   function typeRec(w, ot){ return aggregateRows(rows.filter(r=>r.weekKey===w.key && r.ordertype===ot)); }
   if(type==='pie'){
+    // pie always covers everything in the current filter — a full-history composition snapshot, no truncation needed
     const crrRec = aggregateRows(rows.filter(r=>r.ordertype==='CRR'));
     const nbdRec = aggregateRows(rows.filter(r=>r.ordertype==='NBD'));
     charts.split = new Chart(ctx, {type:'pie', data:{labels:['CRR','NBD'], datasets:[{data:[crrRec[mi.key],nbdRec[mi.key]], backgroundColor:['#2DD4BF','#8B7FE8'], borderColor:'#16212C', borderWidth:2}]},
@@ -839,9 +1075,9 @@ function renderSplit(type){
       {label:'CRR', data:crrRecs.map(r=>r[mi.key]), backgroundColor:'#2DD4BF', borderRadius:stacked?0:4, meta:crrRecs},
       {label:'NBD', data:nbdRecs.map(r=>r[mi.key]), backgroundColor:'#8B7FE8', borderRadius:stacked?0:4, meta:nbdRecs}
     ]},
-    options: baseOpts({x:{stacked}, y:{stacked,ticks:{callback:v=>fmtINR(v)}}}, true, false, (items)=>{
-      const lines=[]; items.forEach(it=>{ const rec=it.dataset.meta[it.dataIndex]; lines.push(`${it.dataset.label} — ${labels[it.dataIndex]}`, ...richTooltip(rec)); });
-      return lines;
+    options: singleItemOpts({x:{stacked}, y:{stacked,ticks:{callback:v=>fmtINR(v)}}}, true, false, (items)=>{
+      const it = items[0]; const rec = it.dataset.meta[it.dataIndex];
+      return [`${it.dataset.label} — ${labels[it.dataIndex]}`, ...richTooltip(rec)];
     })
   });
 }
@@ -850,7 +1086,13 @@ function renderSp(type){
   const ctx = document.getElementById('spChart');
   const mi = METRIC_INFO[state.metric];
   const rows = currentRows();
-  const scopeWeeks = weeksInScope(rows);
+  let scopeWeeks = weeksInScope(rows);
+  const SP_STACK_LIMIT = 8; // keep the stacked/grouped legend readable — line view can show more
+  const truncatedForStack = scopeWeeks.length > SP_STACK_LIMIT;
+  document.getElementById('spDesc').textContent = (type==='line')
+    ? `Top 8 performers, up to the most recent ${Math.min(scopeWeeks.length, WEEK_BUCKET_LIMIT)} periods`
+    : (truncatedForStack ? `Top 8 performers, most recent ${SP_STACK_LIMIT} periods shown (totals above still include everything)` : 'Top 8 performers in the current filter');
+  if(scopeWeeks.length > WEEK_BUCKET_LIMIT) scopeWeeks = scopeWeeks.slice(-WEEK_BUCKET_LIMIT);
   const totalBySp = {};
   rows.forEach(r=>{ totalBySp[r.salesperson] = (totalBySp[r.salesperson]||0)+r.net; });
   const top8 = Object.entries(totalBySp).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]);
@@ -865,30 +1107,39 @@ function renderSp(type){
       })});
     return;
   }
+  const spPeriods = scopeWeeks.length > SP_STACK_LIMIT ? scopeWeeks.slice(-SP_STACK_LIMIT) : scopeWeeks;
   const stacked = type==='stacked';
   const wkColors = ['#2DD4BF','#F5B454','#8B7FE8','#F0725A','#5EA8F2','#E8C468'];
-  const datasets = scopeWeeks.map((w,wi)=>({ label:w.label, data:top8.map(sp=>spRec(w,sp)[mi.key]), meta:top8.map(sp=>spRec(w,sp)),
+  const datasets = spPeriods.map((w,wi)=>({ label:w.label, data:top8.map(sp=>spRec(w,sp)[mi.key]), meta:top8.map(sp=>spRec(w,sp)),
     backgroundColor: wkColors[wi%wkColors.length], borderRadius:stacked?0:4 }));
   charts.sp = new Chart(ctx, {type:'bar', data:{labels:top8, datasets},
-    options: baseOpts({x:{stacked}, y:{stacked,ticks:{callback:v=>fmtINR(v)}}}, true, false, (items)=>{
-      const lines=[]; items.forEach(it=>{ const rec=it.dataset.meta[it.dataIndex]; lines.push(`${it.dataset.label} — ${top8[it.dataIndex]}`, ...richTooltip(rec)); });
-      return lines;
+    // singleItemOpts (not baseOpts) so hovering shows only the exact bar/segment under the cursor —
+    // stacked mode + index-based tooltips used to dump every week for that salesperson into one giant popup.
+    options: singleItemOpts({x:{stacked}, y:{stacked,ticks:{callback:v=>fmtINR(v)}}}, true, false, (items)=>{
+      const it = items[0];
+      const rec = it.dataset.meta[it.dataIndex];
+      return [`${it.dataset.label} — ${top8[it.dataIndex]}`, ...richTooltip(rec)];
     })
   });
 }
 function renderTable(){
   const rows = currentRows();
   const agg = aggregateRows(rows);
-  const top = agg.topCustomers;
-  const maxNet = top.length ? top[0].net : 1;
+  const mi = METRIC_INFO[state.metric];
+  document.getElementById('custMetricHead').textContent = mi.short;
+  document.getElementById('custDesc').textContent = `Top 15 ranked by ${mi.label}, current filter`;
+  const top = agg.customers.slice().sort((a,b)=>b[mi.key]-a[mi.key]).slice(0,15);
+  const maxVal = top.length ? Math.abs(top[0][mi.key]) || 1 : 1;
   document.getElementById('custTable').innerHTML = top.map((c,i)=>{
     const gpPct = c.net ? (c.profit/c.net*100) : 0;
     return `<tr><td>${i+1}</td><td class="name" title="${c.name}">${c.name}</td>
       <td><span class="tag ${(c.ordertype||'').toLowerCase()}">${c.ordertype||'—'}</span></td>
       <td>${c.salesperson||'—'}</td><td style="text-align:right">${fmtNum(c.invoices)}</td>
-      <td style="text-align:right">${fmtINR(c.net)}</td><td style="text-align:right">${fmtPct(gpPct)}</td>
-      <td style="min-width:90px"><div class="bar-mini"><i style="width:${(c.net/maxNet*100).toFixed(1)}%"></i></div></td></tr>`;
-  }).join('') || `<tr><td colspan="8" class="empty-note">No customers in this filter.</td></tr>`;
+      <td style="text-align:right">${fmtINR(c[mi.key])}</td>
+      <td style="text-align:right">${fmtINR(c.profit)}</td>
+      <td style="text-align:right">${fmtPct(gpPct)}</td>
+      <td style="min-width:90px"><div class="bar-mini"><i style="width:${(Math.abs(c[mi.key])/maxVal*100).toFixed(1)}%"></i></div></td></tr>`;
+  }).join('') || `<tr><td colspan="9" class="empty-note">No customers in this filter.</td></tr>`;
 }
 
 function renderAll(){
@@ -902,9 +1153,167 @@ function renderAll(){
   renderSplit(chartTypes.split);
   renderSp(chartTypes.sp);
   renderTable();
+  renderBI();
+}
+
+/* ---------------------- BI Insights tab ---------------------- */
+function renderBI(){
+  const rows = currentRows();
+  const agg = aggregateRows(rows);
+  const mi = METRIC_INFO[state.metric];
+  const buckets = buildPeriodBuckets(rows);
+  const items = bucketAggs(rows, buckets);
+  const periodLabels = items.map(it => buckets.granularity==='Weekly' ? `${it.label} (${it.range})` : it.label);
+
+  // top mini-KPI row — always reflects the CURRENT filter only (a snapshot, not history)
+  const totalTax = rows.reduce((s,r)=>s+r.tax,0);
+  const taxRatio = agg.gross ? (totalTax/agg.gross*100) : 0;
+  const zeroProfitRows = rows.filter(r=>r.profit<=0);
+  const custCounts = {}; rows.forEach(r=>{ custCounts[r.customer] = (custCounts[r.customer]||0)+1; });
+  const repeatCustCount = Object.values(custCounts).filter(n=>n>1).length;
+  const oneTimeCustCount = Object.values(custCounts).filter(n=>n===1).length;
+  document.getElementById('biTopKpis').innerHTML = [
+    {lbl:'Total Tax Collected', val:fmtINR(totalTax)},
+    {lbl:'Tax ÷ Revenue', val:fmtPct(taxRatio)},
+    {lbl:'Zero/Negative Profit Orders', val:fmtNum(zeroProfitRows.length)},
+    {lbl:'Repeat Customers', val:fmtNum(repeatCustCount)},
+    {lbl:'One-time Customers', val:fmtNum(oneTimeCustCount)},
+  ].map(k=>`<div class="kpi-mini"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div></div>`).join('');
+
+  /* 1. Revenue vs Tax vs Profit — full history, auto-coarsened (daily/weekly/monthly) so it never gets cluttered */
+  destroyChart('biRevTaxProfit');
+  document.querySelector('#biRevTaxProfit').closest('.panel').querySelector('.desc').textContent =
+    `${buckets.granularity} view of the full selected period — see how much of billed value is tax vs your actual margin`;
+  charts.biRevTaxProfit = new Chart(document.getElementById('biRevTaxProfit'), {
+    type:'bar',
+    data:{ labels: periodLabels, datasets:[
+      {label:'Net Sales', data:items.map(it=>it.agg.net), backgroundColor:'#2DD4BF'},
+      {label:'Tax', data:items.map(it=>it.agg.gross-it.agg.net), backgroundColor:'#F0725A'},
+      {label:'Profit', data:items.map(it=>it.agg.profit), backgroundColor:'#F5B454'}
+    ]},
+    options: singleItemOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, true, false, (evts)=>{
+      const it = evts[0]; const idx = it.dataIndex; const a = items[idx].agg;
+      return [periodLabels[idx], `Net Sales: ${fmtINR(a.net)}`, `Tax: ${fmtINR(a.gross-a.net)}`, `Profit: ${fmtINR(a.profit)}`, `Invoices: ${fmtNum(a.invoices)}`];
+    })
+  });
+
+  /* 2. Invoice count trend — same buckets, count-formatted tooltip (no ₹ — these are counts, not money) */
+  destroyChart('biInvoiceCount');
+  document.getElementById('biInvCountTitle').textContent = buckets.granularity + ' invoice count';
+  charts.biInvoiceCount = new Chart(document.getElementById('biInvoiceCount'), {
+    type:'bar', data:{labels:periodLabels, datasets:[{label:'Invoices', data:items.map(it=>it.agg.invoices), backgroundColor:'#5EA8F2'}]},
+    options: baseOpts({y:{ticks:{precision:0}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, false, false, (evts)=>{
+      const idx = evts[0].dataIndex;
+      return [periodLabels[idx], `Invoices: ${fmtNum(items[idx].agg.invoices)}`];
+    })
+  });
+
+  /* 3. Profit contribution pie by salesperson — snapshot of the current filter, not history */
+  destroyChart('biProfitPie');
+  const spByProfit = agg.bySp.slice().sort((a,b)=>b.profit-a.profit).filter(s=>s.profit>0).slice(0,8);
+  charts.biProfitPie = new Chart(document.getElementById('biProfitPie'), {
+    type:'doughnut',
+    data:{ labels: spByProfit.map(s=>s.salesperson), datasets:[{data:spByProfit.map(s=>s.profit), backgroundColor:PALETTE, borderColor:'#16212C', borderWidth:2}] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:10.5},boxWidth:10}},
+      tooltip: tooltipConfigFromFn((evts)=>{ const s = spByProfit[evts[0].dataIndex]; return [s.salesperson, `Profit: ${fmtINR(s.profit)}`, `Net Sales: ${fmtINR(s.net)}`, `Invoices: ${fmtNum(s.invoices)}`]; }) } }
+  });
+
+  /* 4. Top5/Bottom5 salesperson ranking — snapshot of current filter */
+  document.getElementById('biRankDesc').textContent = `Ranked by ${mi.label}, current filter`;
+  const spSorted = agg.bySp.slice().sort((a,b)=>b[mi.key]-a[mi.key]);
+  const top5 = spSorted.slice(0,5), bottom5 = spSorted.slice(-5).reverse();
+  const rankRow = (s,i)=>`<tr><td>${i+1}</td><td class="name">${s.salesperson}</td><td style="text-align:right">${fmtINR(s[mi.key])}</td><td style="text-align:right">${fmtNum(s.invoices)}</td></tr>`;
+  document.getElementById('biTop5').innerHTML = top5.map(rankRow).join('') || `<tr><td colspan="4" class="empty-note">No data.</td></tr>`;
+  document.getElementById('biBottom5').innerHTML = bottom5.map(rankRow).join('') || `<tr><td colspan="4" class="empty-note">No data.</td></tr>`;
+
+  /* 5. Repeat vs one-time customers — snapshot of current filter */
+  destroyChart('biRepeatPie');
+  let repeatNet=0, onceNet=0;
+  agg.customers.forEach(c=>{ if(c.invoices>1) repeatNet+=c.net; else onceNet+=c.net; });
+  charts.biRepeatPie = new Chart(document.getElementById('biRepeatPie'), {
+    type:'pie', data:{ labels:[`Repeat (${fmtNum(repeatCustCount)})`, `One-time (${fmtNum(oneTimeCustCount)})`], datasets:[{data:[repeatNet, onceNet], backgroundColor:['#2DD4BF','#8B7FE8'], borderColor:'#16212C', borderWidth:2}] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:11}}},
+      tooltip: tooltipConfigFromFn((evts)=>{ const lbl=evts[0].label; const val=evts[0].label.startsWith('Repeat')?repeatNet:onceNet; return [lbl, `Net Sales: ${fmtINR(val)}`]; }) } }
+  });
+
+  /* 6. Customer profit-margin leaderboard (2+ invoices) — top 10 of current filter, deliberately not a full-history list */
+  const marginCusts = agg.customers.filter(c=>c.invoices>=2 && c.net>0)
+    .map(c=>({...c, gp: c.profit/c.net*100})).sort((a,b)=>b.gp-a.gp).slice(0,10);
+  document.getElementById('biMarginTable').innerHTML = marginCusts.map((c,i)=>
+    `<tr><td>${i+1}</td><td class="name" title="${c.name}">${c.name}</td><td style="text-align:right">${fmtINR(c.net)}</td><td style="text-align:right">${fmtPct(c.gp)}</td></tr>`
+  ).join('') || `<tr><td colspan="4" class="empty-note">Need customers with 2+ invoices.</td></tr>`;
+
+  /* 7. Profit % per invoice distribution — snapshot, count-formatted (not money) */
+  destroyChart('biProfitDist');
+  const bands = [
+    {label:'Negative', test:p=>p<0},
+    {label:'0%', test:p=>p===0},
+    {label:'0–5%', test:p=>p>0&&p<=5},
+    {label:'5–10%', test:p=>p>5&&p<=10},
+    {label:'10–20%', test:p=>p>10&&p<=20},
+    {label:'20%+', test:p=>p>20},
+  ];
+  const bandCounts = bands.map(()=>0);
+  rows.forEach(r=>{ const p = r.net ? (r.profit/r.net*100) : 0; const idx = bands.findIndex(b=>b.test(p)); if(idx>=0) bandCounts[idx]++; });
+  charts.biProfitDist = new Chart(document.getElementById('biProfitDist'), {
+    type:'bar', data:{ labels: bands.map(b=>b.label), datasets:[{label:'Invoices', data:bandCounts, backgroundColor:['#F0725A','#94A6B5','#F5B454','#E8C468','#4ADE80','#2DD4BF']}] },
+    options: baseOpts({y:{ticks:{precision:0}}}, false, false, (evts)=>{
+      const idx = evts[0].dataIndex;
+      return [bands[idx].label + ' margin', `Invoices: ${fmtNum(bandCounts[idx])}`];
+    })
+  });
+
+  /* 8. Zero / low-profit orders flag list — worst offenders in current filter only, capped at 10 by design */
+  document.getElementById('biFlagDesc').textContent = `${fmtNum(zeroProfitRows.length)} of ${fmtNum(rows.length)} invoices have zero or negative margin`;
+  const worstFlags = zeroProfitRows.slice().sort((a,b)=>b.net-a.net).slice(0,10);
+  document.getElementById('biFlagList').innerHTML = worstFlags.length
+    ? worstFlags.map(r=>`<div class="flag-row"><span>${r.invoice||'—'} · ${r.customer}</span><span class="amt">${fmtINR(r.net)} net, ${fmtINR(r.profit)} profit</span></div>`).join('')
+    : `<div class="empty-note">No zero/negative-profit invoices in this filter 🎉</div>`;
+
+  /* 9. Salesperson efficiency — avg profit per order (replaces the old Company-Sales panel) */
+  destroyChart('biEfficiency');
+  const effList = agg.bySp.filter(s=>s.invoices>0).map(s=>({...s, avgProfit: s.profit/s.invoices}))
+    .sort((a,b)=>b.avgProfit-a.avgProfit).slice(0,8);
+  charts.biEfficiency = new Chart(document.getElementById('biEfficiency'), {
+    type:'bar', data:{ labels: effList.map(s=>s.salesperson), datasets:[{label:'Avg. profit / order', data:effList.map(s=>s.avgProfit), backgroundColor:'#4ADE80'}] },
+    options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}}, false, false, (evts)=>{
+      const s = effList[evts[0].dataIndex];
+      return [s.salesperson, `Avg. profit/order: ${fmtINR(s.avgProfit)}`, `Total profit: ${fmtINR(s.profit)}`, `Invoices: ${fmtNum(s.invoices)}`];
+    })
+  });
+
+  /* 10. Tax collected — same buckets as everything else */
+  destroyChart('biTaxTrend');
+  document.getElementById('biTaxDesc').textContent = `Total tax in this filter: ${fmtINR(totalTax)} (${fmtPct(taxRatio)} of billed value) — ${buckets.granularity.toLowerCase()} view`;
+  charts.biTaxTrend = new Chart(document.getElementById('biTaxTrend'), {
+    type:'line', data:{ labels:periodLabels, datasets:[{label:'Tax', data:items.map(it=>it.agg.gross-it.agg.net), borderColor:'#F0725A', backgroundColor:'rgba(240,114,90,.18)', fill:true, tension:.3, borderWidth:2}] },
+    options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, false)
+  });
+
+  /* 11. Unusually large invoices — audit-style flag list (replaces the old MIDAP panel) */
+  const netVals = rows.map(r=>r.net).filter(n=>n>0);
+  const avgNet = netVals.length ? netVals.reduce((a,b)=>a+b,0)/netVals.length : 0;
+  const sdNet = netVals.length ? Math.sqrt(netVals.reduce((s,n)=>s+Math.pow(n-avgNet,2),0)/netVals.length) : 0;
+  const outlierThreshold = avgNet + 2*sdNet;
+  const outliers = rows.filter(r=>r.net > outlierThreshold && r.net > 0).sort((a,b)=>b.net-a.net).slice(0,10);
+  document.getElementById('biOutlierDesc').textContent = netVals.length
+    ? `Invoices over ~${fmtINR(outlierThreshold)} (avg + 2×std-dev) — worth a quick sanity check`
+    : 'No invoices in this filter';
+  document.getElementById('biOutlierList').innerHTML = outliers.length
+    ? outliers.map(r=>`<div class="flag-row"><span>${r.invoice||'—'} · ${r.customer} <span style="color:var(--ink-dim)">(${r.salesperson})</span></span><span class="amt" style="color:var(--amber)">${fmtINR(r.net)}</span></div>`).join('')
+    : `<div class="empty-note">No unusually large invoices flagged in this filter.</div>`;
 }
 
 /* ---------------------- UI wiring ---------------------- */
+document.querySelectorAll('.tabnav button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabnav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('mainTab').style.display = btn.dataset.tab==='main' ? 'block':'none';
+    document.getElementById('biTab').style.display = btn.dataset.tab==='bi' ? 'block':'none';
+  });
+});
+
 function setMode(mode){
   state.mode = mode;
   document.getElementById('weekBlock').style.display = mode==='WEEK' ? 'flex':'none';
@@ -953,6 +1362,58 @@ document.querySelectorAll('.chart-toggle').forEach(group=>{
 
 document.getElementById('refreshBtn').addEventListener('click', ()=>loadData(true));
 
+/* ---------------------- Save / restore filter view ---------------------- */
+const SAVED_VIEW_KEY = 'pnp_dashboard_saved_view_v1';
+
+function applyStateToUI(){
+  document.querySelectorAll('#metricToggle button').forEach(b=>b.classList.toggle('active', b.dataset.metric===state.metric));
+  document.querySelectorAll('#orderTypeToggle button').forEach(b=>b.classList.toggle('active', b.dataset.ordertype===state.ordertype));
+  document.querySelectorAll('#modeToggle button').forEach(b=>b.classList.toggle('active', b.dataset.mode===state.mode));
+  document.getElementById('weekBlock').style.display = state.mode==='WEEK' ? 'flex':'none';
+  document.getElementById('monthBlock').style.display = state.mode==='MONTH' ? 'flex':'none';
+  document.getElementById('rangeBlock').style.display = state.mode==='RANGE' ? 'flex':'none';
+  if(document.getElementById('spFilter').querySelector(`option[value="${CSS.escape(state.salesperson)}"]`)) document.getElementById('spFilter').value = state.salesperson;
+  if(state.weekKey!=null && document.getElementById('weekFilter').querySelector(`option[value="${state.weekKey}"]`)) document.getElementById('weekFilter').value = state.weekKey;
+  if(state.monthKey && document.getElementById('monthFilter').querySelector(`option[value="${state.monthKey}"]`)) document.getElementById('monthFilter').value = state.monthKey;
+  if(state.rangeStart) document.getElementById('rangeStart').value = state.rangeStart;
+  if(state.rangeEnd) document.getElementById('rangeEnd').value = state.rangeEnd;
+  Object.keys(chartTypes).forEach(target=>{
+    document.querySelectorAll(`.chart-toggle[data-target="${target}"] button`).forEach(b=>b.classList.toggle('active', b.dataset.type===chartTypes[target]));
+  });
+}
+
+function loadSavedView(){
+  try{
+    const raw = localStorage.getItem(SAVED_VIEW_KEY);
+    if(!raw) return;
+    const saved = JSON.parse(raw);
+    if(saved.state) Object.assign(state, saved.state);
+    if(saved.chartTypes) Object.assign(chartTypes, saved.chartTypes);
+  } catch(e){ console.warn('Could not read saved view', e); }
+}
+
+function saveView(){
+  try{
+    localStorage.setItem(SAVED_VIEW_KEY, JSON.stringify({ state, chartTypes }));
+    const btn = document.getElementById('saveViewBtn');
+    const original = btn.textContent;
+    btn.textContent = '✓ Saved!'; btn.classList.add('saved');
+    setTimeout(()=>{ btn.textContent = original; btn.classList.remove('saved'); }, 1500);
+  } catch(e){ alert('Could not save — your browser may be blocking local storage for this file.'); }
+}
+
+function resetView(){
+  localStorage.removeItem(SAVED_VIEW_KEY);
+  state = { metric:'net', ordertype:'ALL', salesperson:'ALL', mode:'ALL', weekKey:null, monthKey:null, rangeStart:null, rangeEnd:null };
+  chartTypes = { trend:'bar', split:'stacked', sp:'stacked', wow:'bar' };
+  populateFilterOptions();
+  applyStateToUI();
+  renderAll();
+}
+
+document.getElementById('saveViewBtn').addEventListener('click', saveView);
+document.getElementById('resetViewBtn').addEventListener('click', resetView);
+
 /* ---------------------- Load / sync ---------------------- */
 function setSyncStatus(ok, msg){
   const dot = document.getElementById('liveDot');
@@ -974,7 +1435,9 @@ async function loadData(manual){
     const rows = await fetchSheetRows();
     const meta = enrichAndIndex(rows);
     ALL_ROWS = rows; WEEKS = meta.weeks; MONTHS = meta.months;
+    if(!loadData._savedApplied){ loadSavedView(); loadData._savedApplied = true; }
     populateFilterOptions();
+    applyStateToUI();
     hideError();
     document.getElementById('loadingScreen').style.display='none';
     document.getElementById('dashboardBody').style.display='block';
