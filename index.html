@@ -97,6 +97,26 @@
   .kpi-mini .lbl{font-size:10px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.04em;}
   .kpi-mini .val{font-size:16px;font-weight:800;margin-top:3px;}
   .flag-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
+
+  /* Admin modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(5,9,13,.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+  .modal-box{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:22px 24px;}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .modal-head h3{margin:0;font-size:17px;font-weight:800;}
+  .modal-close{background:none;border:none;color:var(--ink-dim);font-size:18px;cursor:pointer;line-height:1;}
+  .modal-close:hover{color:var(--ink);}
+  .admin-error{color:var(--coral);font-size:12px;margin-top:8px;display:none;}
+  .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+  .admin-field{display:flex;flex-direction:column;gap:5px;}
+  .admin-field label{font-size:11px;color:var(--ink-dim);font-weight:600;text-transform:uppercase;letter-spacing:.03em;}
+  .admin-field input[type="text"], .admin-field input[type="number"], .admin-field input[type="password"]{
+    background:var(--panel-2);border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:8px;font-family:var(--font);font-size:13px;width:100%;
+  }
+  .admin-field .hint{font-size:10.5px;color:var(--ink-dim);}
+  .admin-section-label{grid-column:1/-1;font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.05em;margin-top:8px;border-top:1px solid var(--line);padding-top:12px;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+  .checkbox-row{display:flex;align-items:center;gap:8px;grid-column:1/-1;}
+  .checkbox-row label{font-size:12.5px;color:var(--ink);}
   .flag-row .amt{color:var(--coral);font-weight:700;}
   .wk-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;min-width:0;}
   .wk-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--wc,var(--teal));}
@@ -184,14 +204,15 @@
 
   <div class="topbar">
     <div>
-      <p class="brand">PICK N PACK</p>
-      <h1>Live Sales Dashboard</h1>
+      <p class="brand" id="brandLabel">PICK N PACK</p>
+      <h1 id="dashTitle">Live Sales Dashboard</h1>
       <p class="period" id="periodDesc">Connected to Google Sheet — DASHBOARD tab</p>
     </div>
     <div class="sync-box">
       <div class="sync-status" id="syncStatus"><span class="live-dot" id="liveDot"></span>Connecting…</div>
       <button class="util-btn" id="saveViewBtn" title="Remember current filters &amp; chart types for next time">💾 Save View</button>
       <button class="util-btn" id="resetViewBtn" title="Clear saved filters and go back to defaults">↺ Reset</button>
+      <button class="util-btn" id="adminBtn" title="Admin settings (password protected)">⚙️ Admin</button>
       <button class="refresh-btn" id="refreshBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
         Refresh
@@ -239,6 +260,10 @@
           <button data-mode="RANGE">Custom Range</button>
         </div>
       </div>
+      <div class="filter-block">
+        <span class="fb-label">Year (quick pick)</span>
+        <select id="yearFilter"><option value="ALL">— pick a year —</option></select>
+      </div>
       <div class="filter-block" id="weekBlock" style="display:none">
         <span class="fb-label">Select week</span>
         <select id="weekFilter"></select>
@@ -280,6 +305,12 @@
           <h2 id="growthTitle">Salesperson-wise weekly growth</h2>
           <p class="desc" id="growthDesc">Per week, with week-over-week % change</p>
         </div>
+        <div class="chart-toggle" data-target="growthGran">
+          <button data-type="day">Daily</button>
+          <button data-type="week" class="active">Weekly</button>
+          <button data-type="month">Monthly</button>
+          <button data-type="year">Yearly</button>
+        </div>
       </div>
       <div class="table-scroll">
       <table id="growthTableWrap">
@@ -295,14 +326,23 @@
           <h2 id="trendTitle">Sales trend</h2>
           <p class="desc" id="trendDesc">Filtered period, day by day</p>
         </div>
-        <div class="chart-toggle" data-target="trend">
-          <button data-type="bar" class="active">Bar</button>
-          <button data-type="line">Line</button>
-          <button data-type="area">Area</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="chart-toggle" data-target="trendGran">
+            <button data-type="auto" class="active">Auto</button>
+            <button data-type="day">Daily</button>
+            <button data-type="week">Weekly</button>
+            <button data-type="month">Monthly</button>
+            <button data-type="year">Yearly</button>
+          </div>
+          <div class="chart-toggle" data-target="trend">
+            <button data-type="bar" class="active">Bar</button>
+            <button data-type="line">Line</button>
+            <button data-type="area">Area</button>
+          </div>
         </div>
       </div>
       <div class="chart-box tall"><canvas id="trendChart"></canvas></div>
-      <p class="hover-hint">Hover/tap any bar to see net sales, GST value, profit and invoice count for that day.</p>
+      <p class="hover-hint">Hover/tap any bar to see net sales, GST value, profit and invoice count for that day. Use "Year (quick pick)" above, or Custom Range, to load a whole year, then switch this to Monthly for a MoM view.</p>
     </div>
 
     <div class="grid3">
@@ -423,7 +463,7 @@
         <div class="panel">
           <div class="panel-head"><div>
             <h2>Repeat vs one-time customers</h2>
-            <p class="desc">By invoice count per customer, current filter</p>
+            <p class="desc">Based on your CRR (repeat) / NBD (new) Order Type field</p>
           </div></div>
           <div class="chart-box"><canvas id="biRepeatPie"></canvas></div>
         </div>
@@ -487,6 +527,87 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="adminModalOverlay">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>⚙️ Admin Settings</h3>
+      <button class="modal-close" id="adminModalClose">✕</button>
+    </div>
+
+    <div id="adminPassStage">
+      <p style="color:var(--ink-dim);font-size:13px;margin:0 0 12px">Enter the admin password to change dashboard settings without editing any code.</p>
+      <div class="admin-field">
+        <label>Password</label>
+        <input type="password" id="adminPassInput" placeholder="••••">
+      </div>
+      <p class="admin-error" id="adminPassError">Incorrect password — try again.</p>
+      <div class="modal-actions">
+        <button class="util-btn" id="adminPassSubmit">Unlock</button>
+      </div>
+    </div>
+
+    <div id="adminSettingsStage" style="display:none">
+      <div class="admin-grid">
+        <div class="admin-section-label">Data source</div>
+        <div class="admin-field">
+          <label>Google Sheet ID</label>
+          <input type="text" id="admSheetId">
+          <span class="hint">The long id in the sheet's URL, between /d/ and /edit</span>
+        </div>
+        <div class="admin-field">
+          <label>Tab (gid)</label>
+          <input type="text" id="admGid">
+          <span class="hint">The gid= number in the URL — point this at whichever tab has the raw invoice rows</span>
+        </div>
+
+        <div class="admin-section-label">Refresh</div>
+        <div class="admin-field">
+          <label>Auto-refresh every (seconds)</label>
+          <input type="number" id="admRefresh" min="10" step="5">
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="admAutoRefresh">
+          <label for="admAutoRefresh">Enable auto-refresh</label>
+        </div>
+
+        <div class="admin-section-label">Branding</div>
+        <div class="admin-field">
+          <label>Small brand label</label>
+          <input type="text" id="admBrand">
+        </div>
+        <div class="admin-field">
+          <label>Dashboard title</label>
+          <input type="text" id="admTitle">
+        </div>
+
+        <div class="admin-section-label">Display &amp; thresholds</div>
+        <div class="admin-field">
+          <label>Top customers to show</label>
+          <input type="number" id="admTopCust" min="1" step="1">
+        </div>
+        <div class="admin-field">
+          <label>Top salespersons to show</label>
+          <input type="number" id="admTopSp" min="1" step="1">
+        </div>
+        <div class="admin-field">
+          <label>Outlier sensitivity (× std-dev)</label>
+          <input type="number" id="admOutlierSD" min="0.5" step="0.5">
+          <span class="hint">Lower = flags more invoices as "unusually large"</span>
+        </div>
+        <div class="admin-field">
+          <label>Low-profit flag threshold (%)</label>
+          <input type="number" id="admLowProfit" min="0" step="1">
+          <span class="hint">Flags any invoice with margin at/below this — 0 means only zero/negative</span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="util-btn saved" id="adminSaveBtn">💾 Save &amp; Reload</button>
+        <button class="util-btn" id="adminDefaultsBtn">↺ Restore Defaults</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /*!
  * Chart.js v4.4.4
@@ -505,13 +626,45 @@
 
 </script>
 <script>
-/* ========================= CONFIG ========================= */
+/* ========================= CONFIG (factory defaults) ========================= */
 const CONFIG = {
   SHEET_ID: '1iTwR2ye-jGKasIbvj4xsq1znuI7ZrbbPcwJZ3AyUIeQ',
   GID: '416074565',           // the "DASHBOARD" tab's gid
   REFRESH_MS: 45000           // auto-refresh interval
 };
-/* ============================================================ */
+/* ============================================================================ */
+
+/* ========================= ADMIN SETTINGS =========================
+   Everything here can be changed from the ⚙️ Admin panel (password: 0000)
+   without touching this file — it's stored in the browser's localStorage
+   and layered on top of the CONFIG defaults above. */
+const ADMIN_PASSWORD = '0000';
+const ADMIN_SETTINGS_KEY = 'pnp_dashboard_admin_settings_v1';
+const DEFAULT_ADMIN_SETTINGS = {
+  sheetId: CONFIG.SHEET_ID,
+  gid: CONFIG.GID,
+  refreshSeconds: CONFIG.REFRESH_MS / 1000,
+  autoRefresh: true,
+  brandName: 'PICK N PACK',
+  dashboardTitle: 'Live Sales Dashboard',
+  topCustomersN: 15,
+  topSalespersonN: 8,
+  outlierSD: 2,
+  lowProfitPct: 0
+};
+function loadAdminSettings(){
+  try{
+    const raw = localStorage.getItem(ADMIN_SETTINGS_KEY);
+    if(raw) return Object.assign({}, DEFAULT_ADMIN_SETTINGS, JSON.parse(raw));
+  } catch(e){ console.warn('Could not read admin settings', e); }
+  return Object.assign({}, DEFAULT_ADMIN_SETTINGS);
+}
+let ADMIN = loadAdminSettings();
+// Apply admin overrides onto CONFIG so the rest of the app doesn't need to know they exist
+CONFIG.SHEET_ID = ADMIN.sheetId;
+CONFIG.GID = ADMIN.gid;
+CONFIG.REFRESH_MS = ADMIN.refreshSeconds * 1000;
+/* ==================================================================== */
 
 const fmtINR = n => (n<0?'-':'')+'₹' + (Math.abs(n)>=10000000 ? (Math.abs(n)/10000000).toFixed(2)+' Cr' : Math.abs(n)>=100000 ? (Math.abs(n)/100000).toFixed(2)+' L' : Math.abs(n).toLocaleString('en-IN',{maximumFractionDigits:0}));
 const fmtNum = n => n.toLocaleString('en-IN');
@@ -538,7 +691,9 @@ let state = {
   weekKey: null,
   monthKey: null,
   rangeStart: null,
-  rangeEnd: null
+  rangeEnd: null,
+  trendGran: 'auto',  // auto | day | week | month | year — manual override for the Sales trend panel
+  growthGran: 'week'  // day | week | month | year — granularity for the Salesperson-wise growth table
 };
 
 /* ---------------------- Fetch & parse ---------------------- */
@@ -744,7 +899,7 @@ function aggregateRows(rows){
     byType: Object.values(byTypeMap),
     byCompanySales: Object.values(byCompMap),
     customers,
-    topCustomers: customers.slice().sort((a,b)=>b.net-a.net).slice(0,15)
+    topCustomers: customers.slice().sort((a,b)=>b.net-a.net).slice(0, ADMIN.topCustomersN)
   };
 }
 function growthSeries(values){
@@ -796,6 +951,10 @@ function populateFilterOptions(){
     document.getElementById('rangeStart').value = state.rangeStart;
     document.getElementById('rangeEnd').value = state.rangeEnd;
   }
+
+  const yearSel = document.getElementById('yearFilter');
+  const years = [...new Set(ALL_ROWS.map(r=>r.date.getFullYear()))].sort((a,b)=>b-a);
+  yearSel.innerHTML = '<option value="ALL">— pick a year —</option>' + years.map(y=>`<option value="${y}">${y}</option>`).join('');
 }
 
 /* ---------------------- Renderers ---------------------- */
@@ -911,26 +1070,44 @@ function weeksInScope(rows){
 const TREND_DAY_LIMIT = 40;   // more unique days than this -> switch to weekly
 const WEEK_BUCKET_LIMIT = 16; // more weeks than this -> switch to monthly
 
-function buildPeriodBuckets(rows){
-  const dayKeys = [...new Set(rows.map(r=>r.date.toDateString()))];
-  if(dayKeys.length <= TREND_DAY_LIMIT){
+function buildPeriodBuckets(rows, forceGran){
+  function dayBuckets(){
+    const dayKeys = [...new Set(rows.map(r=>r.date.toDateString()))];
     const days = dayKeys.map(dk=>rows.find(r=>r.date.toDateString()===dk).date).sort((a,b)=>a-b);
     return { granularity:'Daily', defs: days.map(d=>({
       label: d.toLocaleDateString('en-US',{weekday:'short'})+' '+d.getDate(),
       match: r=>r.date.toDateString()===d.toDateString()
     })) };
   }
-  const scopeWeeksList = weeksInScope(rows);
-  if(scopeWeeksList.length <= WEEK_BUCKET_LIMIT){
+  function weekBuckets(){
+    const scopeWeeksList = weeksInScope(rows);
     return { granularity:'Weekly', defs: scopeWeeksList.map(w=>({
       label: w.label, range: w.range, match: r=>r.weekKey===w.key
     })) };
   }
-  const monthKeys = [...new Set(rows.map(r=>r.monthKey))].sort();
-  return { granularity:'Monthly', defs: monthKeys.map(k=>{
-    const m = MONTHS.find(m=>m.key===k);
-    return { label: m ? m.label : k, match: r=>r.monthKey===k };
-  }) };
+  function monthBuckets(){
+    const monthKeys = [...new Set(rows.map(r=>r.monthKey))].sort();
+    return { granularity:'Monthly', defs: monthKeys.map(k=>{
+      const m = MONTHS.find(m=>m.key===k);
+      return { label: m ? m.label : k, match: r=>r.monthKey===k };
+    }) };
+  }
+  function yearBuckets(){
+    const yearKeys = [...new Set(rows.map(r=>r.date.getFullYear()))].sort((a,b)=>a-b);
+    return { granularity:'Yearly', defs: yearKeys.map(y=>({
+      label: String(y), match: r=>r.date.getFullYear()===y
+    })) };
+  }
+  if(forceGran==='day') return dayBuckets();
+  if(forceGran==='week') return weekBuckets();
+  if(forceGran==='month') return monthBuckets();
+  if(forceGran==='year') return yearBuckets();
+  // auto:
+  const dayKeys = [...new Set(rows.map(r=>r.date.toDateString()))];
+  if(dayKeys.length <= TREND_DAY_LIMIT) return dayBuckets();
+  const scopeWeeksList = weeksInScope(rows);
+  if(scopeWeeksList.length <= WEEK_BUCKET_LIMIT) return weekBuckets();
+  return monthBuckets();
 }
 function bucketAggs(rows, buckets){
   return buckets.defs.map(d=>({ label:d.label, range:d.range, agg: aggregateRows(rows.filter(d.match)) }));
@@ -939,23 +1116,25 @@ function bucketAggs(rows, buckets){
 function renderGrowthTable(){
   const mi = METRIC_INFO[state.metric];
   const otLabel = state.ordertype==='ALL' ? '' : ` · ${state.ordertype} only`;
-  document.getElementById('growthTitle').textContent = `Salesperson-wise weekly growth — ${mi.label}${otLabel}`;
-  document.getElementById('growthDesc').textContent = `${mi.label} per week, with week-over-week % change`;
-
   const rows = currentRows();
-  const scopeWeeks = weeksInScope(rows);
+  const buckets = buildPeriodBuckets(rows, state.growthGran);
+  const granLower = buckets.granularity.toLowerCase();
+
+  document.getElementById('growthTitle').textContent = `Salesperson-wise ${granLower} growth — ${mi.label}${otLabel}`;
+  document.getElementById('growthDesc').textContent = `${mi.label} per ${granLower.replace('ly','')}, with period-over-period % change`;
+
   const headRow = document.getElementById('growthHeadRow');
   headRow.innerHTML = '<th>#</th><th>Salesperson</th>' +
-    scopeWeeks.map(w=>`<th style="text-align:right">${w.label}</th>`).join('') +
+    buckets.defs.map(d=>`<th style="text-align:right">${d.label}${d.range ? `<br><span style="font-weight:400;text-transform:none;font-size:9.5px;color:var(--ink-dim)">${d.range}</span>` : ''}</th>`).join('') +
     `<th style="text-align:right">Total</th><th style="text-align:right">Overall Growth</th>`;
 
-  if(!scopeWeeks.length){ document.getElementById('growthTable').innerHTML = `<tr><td colspan="4" class="empty-note">No data in this filter.</td></tr>`; return; }
+  if(!buckets.defs.length){ document.getElementById('growthTable').innerHTML = `<tr><td colspan="4" class="empty-note">No data in this filter.</td></tr>`; return; }
 
   const spNames = [...new Set(rows.map(r=>r.salesperson))];
   const spData = spNames.map(sp=>{
-    const weekly = scopeWeeks.map(w=>aggregateRows(rows.filter(r=>r.salesperson===sp && r.weekKey===w.key))[mi.key]);
-    const total = weekly.reduce((a,b)=>a+b,0);
-    return { sp, weekly, growth: growthSeries(weekly), total, overall: overallGrowth(weekly) };
+    const periodVals = buckets.defs.map(d=>aggregateRows(rows.filter(r=>r.salesperson===sp && d.match(r)))[mi.key]);
+    const total = periodVals.reduce((a,b)=>a+b,0);
+    return { sp, periodVals, growth: growthSeries(periodVals), total, overall: overallGrowth(periodVals) };
   }).sort((a,b)=>b.total-a.total);
 
   function growthBadge(pct){
@@ -964,7 +1143,7 @@ function renderGrowthTable(){
     return pct>0 ? `<span class="growth-badge up">▲ ${pct.toFixed(1)}%</span>` : `<span class="growth-badge down">▼ ${Math.abs(pct).toFixed(1)}%</span>`;
   }
   document.getElementById('growthTable').innerHTML = spData.map((r,i)=>{
-    const cells = r.weekly.map((v,idx)=>{
+    const cells = r.periodVals.map((v,idx)=>{
       const badge = idx===0 ? `<span class="growth-badge na">Start</span>` : growthBadge(r.growth[idx]);
       return `<td><div class="growth-cell"><span class="amt">${fmtINR(v)}</span>${badge}</div></td>`;
     }).join('');
@@ -1008,15 +1187,18 @@ function renderTrend(type){
   const ctx = document.getElementById('trendChart');
   const mi = METRIC_INFO[state.metric];
   const rows = currentRows();
-  const buckets = buildPeriodBuckets(rows);
+  const forced = state.trendGran && state.trendGran!=='auto' ? state.trendGran : null;
+  const buckets = buildPeriodBuckets(rows, forced);
   const items = bucketAggs(rows, buckets);
   const labels = items.map(it => buckets.granularity==='Weekly' ? `${it.label} (${it.range})` : it.label);
   const data = items.map(it => it.agg[mi.key]);
 
   document.getElementById('trendTitle').textContent = buckets.granularity + ' trend';
-  document.getElementById('trendDesc').textContent = buckets.granularity==='Daily'
-    ? 'Filtered period, day by day'
-    : `Automatically grouped into ${buckets.granularity.toLowerCase()} buckets — the period covers a lot of ${buckets.granularity==='Weekly'?'days':'weeks'}, so daily bars would get too cluttered to read`;
+  document.getElementById('trendDesc').textContent = forced
+    ? `Manually set to ${buckets.granularity.toLowerCase()} view — switch back to "Auto" to let it size itself automatically`
+    : (buckets.granularity==='Daily'
+      ? 'Filtered period, day by day'
+      : `Automatically grouped into ${buckets.granularity.toLowerCase()} buckets — the period covers a lot of ${buckets.granularity==='Weekly'?'days':'weeks'}, so daily bars would get too cluttered to read`);
 
   const isBar = type==='bar', fillArea = type==='area';
   charts.trend = new Chart(ctx, { type: isBar?'bar':'line',
@@ -1095,7 +1277,7 @@ function renderSp(type){
   if(scopeWeeks.length > WEEK_BUCKET_LIMIT) scopeWeeks = scopeWeeks.slice(-WEEK_BUCKET_LIMIT);
   const totalBySp = {};
   rows.forEach(r=>{ totalBySp[r.salesperson] = (totalBySp[r.salesperson]||0)+r.net; });
-  const top8 = Object.entries(totalBySp).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]);
+  const top8 = Object.entries(totalBySp).sort((a,b)=>b[1]-a[1]).slice(0, ADMIN.topSalespersonN).map(x=>x[0]);
   function spRec(w, sp){ return aggregateRows(rows.filter(r=>r.weekKey===w.key && r.salesperson===sp)); }
   if(type==='line'){
     const datasets = top8.map((sp,i)=>({ label:sp, data:scopeWeeks.map(w=>spRec(w,sp)[mi.key]), meta:scopeWeeks.map(w=>spRec(w,sp)),
@@ -1127,8 +1309,8 @@ function renderTable(){
   const agg = aggregateRows(rows);
   const mi = METRIC_INFO[state.metric];
   document.getElementById('custMetricHead').textContent = mi.short;
-  document.getElementById('custDesc').textContent = `Top 15 ranked by ${mi.label}, current filter`;
-  const top = agg.customers.slice().sort((a,b)=>b[mi.key]-a[mi.key]).slice(0,15);
+  document.getElementById('custDesc').textContent = `Top ${ADMIN.topCustomersN} ranked by ${mi.label}, current filter`;
+  const top = agg.customers.slice().sort((a,b)=>b[mi.key]-a[mi.key]).slice(0, ADMIN.topCustomersN);
   const maxVal = top.length ? Math.abs(top[0][mi.key]) || 1 : 1;
   document.getElementById('custTable').innerHTML = top.map((c,i)=>{
     const gpPct = c.net ? (c.profit/c.net*100) : 0;
@@ -1168,16 +1350,18 @@ function renderBI(){
   // top mini-KPI row — always reflects the CURRENT filter only (a snapshot, not history)
   const totalTax = rows.reduce((s,r)=>s+r.tax,0);
   const taxRatio = agg.gross ? (totalTax/agg.gross*100) : 0;
-  const zeroProfitRows = rows.filter(r=>r.profit<=0);
-  const custCounts = {}; rows.forEach(r=>{ custCounts[r.customer] = (custCounts[r.customer]||0)+1; });
-  const repeatCustCount = Object.values(custCounts).filter(n=>n>1).length;
-  const oneTimeCustCount = Object.values(custCounts).filter(n=>n===1).length;
+  const zeroProfitRows = rows.filter(r=>{ const marginPct = r.net ? (r.profit/r.net*100) : 0; return marginPct <= ADMIN.lowProfitPct; });
+  // Repeat vs one-time is driven by the ORDER TYPES field you already maintain: CRR = repeat, NBD = new/one-time.
+  const crrCustomers = new Set(rows.filter(r=>r.ordertype==='CRR').map(r=>r.customer));
+  const nbdCustomers = new Set(rows.filter(r=>r.ordertype==='NBD').map(r=>r.customer));
+  const repeatCustCount = crrCustomers.size;
+  const oneTimeCustCount = nbdCustomers.size;
   document.getElementById('biTopKpis').innerHTML = [
     {lbl:'Total Tax Collected', val:fmtINR(totalTax)},
     {lbl:'Tax ÷ Revenue', val:fmtPct(taxRatio)},
     {lbl:'Zero/Negative Profit Orders', val:fmtNum(zeroProfitRows.length)},
-    {lbl:'Repeat Customers', val:fmtNum(repeatCustCount)},
-    {lbl:'One-time Customers', val:fmtNum(oneTimeCustCount)},
+    {lbl:'Repeat Customers (CRR)', val:fmtNum(repeatCustCount)},
+    {lbl:'New / One-time (NBD)', val:fmtNum(oneTimeCustCount)},
   ].map(k=>`<div class="kpi-mini"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div></div>`).join('');
 
   /* 1. Revenue vs Tax vs Profit — full history, auto-coarsened (daily/weekly/monthly) so it never gets cluttered */
@@ -1210,10 +1394,10 @@ function renderBI(){
 
   /* 3. Profit contribution pie by salesperson — snapshot of the current filter, not history */
   destroyChart('biProfitPie');
-  const spByProfit = agg.bySp.slice().sort((a,b)=>b.profit-a.profit).filter(s=>s.profit>0).slice(0,8);
+  const spByProfit = agg.bySp.slice().sort((a,b)=>b.profit-a.profit).filter(s=>s.profit>0).slice(0, ADMIN.topSalespersonN);
   charts.biProfitPie = new Chart(document.getElementById('biProfitPie'), {
     type:'doughnut',
-    data:{ labels: spByProfit.map(s=>s.salesperson), datasets:[{data:spByProfit.map(s=>s.profit), backgroundColor:PALETTE, borderColor:'#16212C', borderWidth:2}] },
+    data:{ labels: spByProfit.map(s=>s.salesperson), datasets:[{data:spByProfit.map(s=>s.profit), backgroundColor:spByProfit.map((_,i)=>PALETTE[i%PALETTE.length]), borderColor:'#16212C', borderWidth:2}] },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:10.5},boxWidth:10}},
       tooltip: tooltipConfigFromFn((evts)=>{ const s = spByProfit[evts[0].dataIndex]; return [s.salesperson, `Profit: ${fmtINR(s.profit)}`, `Net Sales: ${fmtINR(s.net)}`, `Invoices: ${fmtNum(s.invoices)}`]; }) } }
   });
@@ -1226,12 +1410,12 @@ function renderBI(){
   document.getElementById('biTop5').innerHTML = top5.map(rankRow).join('') || `<tr><td colspan="4" class="empty-note">No data.</td></tr>`;
   document.getElementById('biBottom5').innerHTML = bottom5.map(rankRow).join('') || `<tr><td colspan="4" class="empty-note">No data.</td></tr>`;
 
-  /* 5. Repeat vs one-time customers — snapshot of current filter */
+  /* 5. Repeat vs one-time customers — based on your CRR/NBD Order Type field, not a frequency guess */
   destroyChart('biRepeatPie');
-  let repeatNet=0, onceNet=0;
-  agg.customers.forEach(c=>{ if(c.invoices>1) repeatNet+=c.net; else onceNet+=c.net; });
+  const repeatNet = rows.filter(r=>r.ordertype==='CRR').reduce((s,r)=>s+r.net,0);
+  const onceNet = rows.filter(r=>r.ordertype==='NBD').reduce((s,r)=>s+r.net,0);
   charts.biRepeatPie = new Chart(document.getElementById('biRepeatPie'), {
-    type:'pie', data:{ labels:[`Repeat (${fmtNum(repeatCustCount)})`, `One-time (${fmtNum(oneTimeCustCount)})`], datasets:[{data:[repeatNet, onceNet], backgroundColor:['#2DD4BF','#8B7FE8'], borderColor:'#16212C', borderWidth:2}] },
+    type:'pie', data:{ labels:[`Repeat · CRR (${fmtNum(repeatCustCount)} customers)`, `New/One-time · NBD (${fmtNum(oneTimeCustCount)} customers)`], datasets:[{data:[repeatNet, onceNet], backgroundColor:['#2DD4BF','#8B7FE8'], borderColor:'#16212C', borderWidth:2}] },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:11}}},
       tooltip: tooltipConfigFromFn((evts)=>{ const lbl=evts[0].label; const val=evts[0].label.startsWith('Repeat')?repeatNet:onceNet; return [lbl, `Net Sales: ${fmtINR(val)}`]; }) } }
   });
@@ -1264,7 +1448,9 @@ function renderBI(){
   });
 
   /* 8. Zero / low-profit orders flag list — worst offenders in current filter only, capped at 10 by design */
-  document.getElementById('biFlagDesc').textContent = `${fmtNum(zeroProfitRows.length)} of ${fmtNum(rows.length)} invoices have zero or negative margin`;
+  document.getElementById('biFlagDesc').textContent = ADMIN.lowProfitPct > 0
+    ? `${fmtNum(zeroProfitRows.length)} of ${fmtNum(rows.length)} invoices have margin at or below ${ADMIN.lowProfitPct}%`
+    : `${fmtNum(zeroProfitRows.length)} of ${fmtNum(rows.length)} invoices have zero or negative margin`;
   const worstFlags = zeroProfitRows.slice().sort((a,b)=>b.net-a.net).slice(0,10);
   document.getElementById('biFlagList').innerHTML = worstFlags.length
     ? worstFlags.map(r=>`<div class="flag-row"><span>${r.invoice||'—'} · ${r.customer}</span><span class="amt">${fmtINR(r.net)} net, ${fmtINR(r.profit)} profit</span></div>`).join('')
@@ -1273,7 +1459,7 @@ function renderBI(){
   /* 9. Salesperson efficiency — avg profit per order (replaces the old Company-Sales panel) */
   destroyChart('biEfficiency');
   const effList = agg.bySp.filter(s=>s.invoices>0).map(s=>({...s, avgProfit: s.profit/s.invoices}))
-    .sort((a,b)=>b.avgProfit-a.avgProfit).slice(0,8);
+    .sort((a,b)=>b.avgProfit-a.avgProfit).slice(0, ADMIN.topSalespersonN);
   charts.biEfficiency = new Chart(document.getElementById('biEfficiency'), {
     type:'bar', data:{ labels: effList.map(s=>s.salesperson), datasets:[{label:'Avg. profit / order', data:effList.map(s=>s.avgProfit), backgroundColor:'#4ADE80'}] },
     options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}}, false, false, (evts)=>{
@@ -1294,10 +1480,10 @@ function renderBI(){
   const netVals = rows.map(r=>r.net).filter(n=>n>0);
   const avgNet = netVals.length ? netVals.reduce((a,b)=>a+b,0)/netVals.length : 0;
   const sdNet = netVals.length ? Math.sqrt(netVals.reduce((s,n)=>s+Math.pow(n-avgNet,2),0)/netVals.length) : 0;
-  const outlierThreshold = avgNet + 2*sdNet;
+  const outlierThreshold = avgNet + ADMIN.outlierSD*sdNet;
   const outliers = rows.filter(r=>r.net > outlierThreshold && r.net > 0).sort((a,b)=>b.net-a.net).slice(0,10);
   document.getElementById('biOutlierDesc').textContent = netVals.length
-    ? `Invoices over ~${fmtINR(outlierThreshold)} (avg + 2×std-dev) — worth a quick sanity check`
+    ? `Invoices over ~${fmtINR(outlierThreshold)} (avg + ${ADMIN.outlierSD}×std-dev) — worth a quick sanity check`
     : 'No invoices in this filter';
   document.getElementById('biOutlierList').innerHTML = outliers.length
     ? outliers.map(r=>`<div class="flag-row"><span>${r.invoice||'—'} · ${r.customer} <span style="color:var(--ink-dim)">(${r.salesperson})</span></span><span class="amt" style="color:var(--amber)">${fmtINR(r.net)}</span></div>`).join('')
@@ -1351,13 +1537,27 @@ document.querySelectorAll('.chart-toggle').forEach(group=>{
   group.querySelectorAll('button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       group.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active'); chartTypes[target] = btn.dataset.type;
+      btn.classList.add('active');
+      if(target==='trendGran'){ state.trendGran = btn.dataset.type; renderTrend(chartTypes.trend); return; }
+      if(target==='growthGran'){ state.growthGran = btn.dataset.type; renderGrowthTable(); return; }
+      chartTypes[target] = btn.dataset.type;
       if(target==='trend') renderTrend(chartTypes.trend);
       if(target==='wow') renderWow(chartTypes.wow);
       if(target==='split') renderSplit(chartTypes.split);
       if(target==='sp') renderSp(chartTypes.sp);
     });
   });
+});
+
+document.getElementById('yearFilter').addEventListener('change', e=>{
+  const y = e.target.value;
+  if(y==='ALL') return;
+  state.mode = 'RANGE';
+  state.rangeStart = `${y}-01-01`;
+  state.rangeEnd = `${y}-12-31`;
+  state.trendGran = 'month';
+  applyStateToUI();
+  renderAll();
 });
 
 document.getElementById('refreshBtn').addEventListener('click', ()=>loadData(true));
@@ -1380,6 +1580,8 @@ function applyStateToUI(){
   Object.keys(chartTypes).forEach(target=>{
     document.querySelectorAll(`.chart-toggle[data-target="${target}"] button`).forEach(b=>b.classList.toggle('active', b.dataset.type===chartTypes[target]));
   });
+  document.querySelectorAll('.chart-toggle[data-target="trendGran"] button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.trendGran));
+  document.querySelectorAll('.chart-toggle[data-target="growthGran"] button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.growthGran));
 }
 
 function loadSavedView(){
@@ -1404,7 +1606,7 @@ function saveView(){
 
 function resetView(){
   localStorage.removeItem(SAVED_VIEW_KEY);
-  state = { metric:'net', ordertype:'ALL', salesperson:'ALL', mode:'ALL', weekKey:null, monthKey:null, rangeStart:null, rangeEnd:null };
+  state = { metric:'net', ordertype:'ALL', salesperson:'ALL', mode:'ALL', weekKey:null, monthKey:null, rangeStart:null, rangeEnd:null, trendGran:'auto', growthGran:'week' };
   chartTypes = { trend:'bar', split:'stacked', sp:'stacked', wow:'bar' };
   populateFilterOptions();
   applyStateToUI();
@@ -1454,9 +1656,82 @@ async function loadData(manual){
   }
 }
 
+/* ---------------------- Admin modal ---------------------- */
+function openAdminModal(){
+  document.getElementById('adminModalOverlay').style.display = 'flex';
+  document.getElementById('adminPassStage').style.display = 'block';
+  document.getElementById('adminSettingsStage').style.display = 'none';
+  document.getElementById('adminPassInput').value = '';
+  document.getElementById('adminPassError').style.display = 'none';
+  setTimeout(()=>document.getElementById('adminPassInput').focus(), 50);
+}
+function closeAdminModal(){ document.getElementById('adminModalOverlay').style.display = 'none'; }
+
+function fillAdminForm(){
+  document.getElementById('admSheetId').value = ADMIN.sheetId;
+  document.getElementById('admGid').value = ADMIN.gid;
+  document.getElementById('admRefresh').value = ADMIN.refreshSeconds;
+  document.getElementById('admAutoRefresh').checked = ADMIN.autoRefresh;
+  document.getElementById('admBrand').value = ADMIN.brandName;
+  document.getElementById('admTitle').value = ADMIN.dashboardTitle;
+  document.getElementById('admTopCust').value = ADMIN.topCustomersN;
+  document.getElementById('admTopSp').value = ADMIN.topSalespersonN;
+  document.getElementById('admOutlierSD').value = ADMIN.outlierSD;
+  document.getElementById('admLowProfit').value = ADMIN.lowProfitPct;
+}
+
+function tryAdminLogin(){
+  const val = document.getElementById('adminPassInput').value;
+  if(val === ADMIN_PASSWORD){
+    document.getElementById('adminPassStage').style.display = 'none';
+    document.getElementById('adminSettingsStage').style.display = 'block';
+    fillAdminForm();
+  } else {
+    document.getElementById('adminPassError').style.display = 'block';
+  }
+}
+
+document.getElementById('adminBtn').addEventListener('click', openAdminModal);
+document.getElementById('adminModalClose').addEventListener('click', closeAdminModal);
+document.getElementById('adminModalOverlay').addEventListener('click', e=>{ if(e.target.id==='adminModalOverlay') closeAdminModal(); });
+document.getElementById('adminPassSubmit').addEventListener('click', tryAdminLogin);
+document.getElementById('adminPassInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryAdminLogin(); });
+
+document.getElementById('adminSaveBtn').addEventListener('click', ()=>{
+  const updated = {
+    sheetId: document.getElementById('admSheetId').value.trim() || DEFAULT_ADMIN_SETTINGS.sheetId,
+    gid: document.getElementById('admGid').value.trim() || DEFAULT_ADMIN_SETTINGS.gid,
+    refreshSeconds: Math.max(10, +document.getElementById('admRefresh').value || DEFAULT_ADMIN_SETTINGS.refreshSeconds),
+    autoRefresh: document.getElementById('admAutoRefresh').checked,
+    brandName: document.getElementById('admBrand').value.trim() || DEFAULT_ADMIN_SETTINGS.brandName,
+    dashboardTitle: document.getElementById('admTitle').value.trim() || DEFAULT_ADMIN_SETTINGS.dashboardTitle,
+    topCustomersN: Math.max(1, +document.getElementById('admTopCust').value || DEFAULT_ADMIN_SETTINGS.topCustomersN),
+    topSalespersonN: Math.max(1, +document.getElementById('admTopSp').value || DEFAULT_ADMIN_SETTINGS.topSalespersonN),
+    outlierSD: Math.max(0.5, +document.getElementById('admOutlierSD').value || DEFAULT_ADMIN_SETTINGS.outlierSD),
+    lowProfitPct: Math.max(0, +document.getElementById('admLowProfit').value || 0)
+  };
+  try{
+    localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(updated));
+    location.reload();
+  } catch(e){
+    alert('Could not save settings — your browser may be blocking local storage for this file.');
+  }
+});
+document.getElementById('adminDefaultsBtn').addEventListener('click', ()=>{
+  if(confirm('Restore all admin settings to factory defaults? This reloads the page.')){
+    localStorage.removeItem(ADMIN_SETTINGS_KEY);
+    location.reload();
+  }
+});
+
+document.getElementById('brandLabel').textContent = ADMIN.brandName;
+document.getElementById('dashTitle').textContent = ADMIN.dashboardTitle;
+
 loadData(false);
 if(refreshTimer) clearInterval(refreshTimer);
-refreshTimer = setInterval(()=>loadData(false), CONFIG.REFRESH_MS);
+if(ADMIN.autoRefresh){
+  refreshTimer = setInterval(()=>loadData(false), CONFIG.REFRESH_MS);
+}
 </script>
 </body>
 </html>
