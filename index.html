@@ -2088,14 +2088,19 @@ function renderMisScoring(){
       : '';
   }
 
-  // ---- Overall Report strip (CRR / NBD / TOTAL) — always counts EVERYONE's numbers,
+  // ---- Overall Report strip (CRR / NBD / OTHER / TOTAL) — always counts EVERYONE's numbers,
   // hidden salespeople just don't get named individually anywhere in this tab.
-  const nbdAllCur  = curRows.filter(r=>r.ordertype==='NBD' && nbdNames.includes(r.salesperson));
-  const crrAllCur  = curRows.filter(r=>r.ordertype==='CRR' && crrNames.includes(r.salesperson));
-  const nbdAllPrev = prevRows.filter(r=>r.ordertype==='NBD' && nbdNames.includes(r.salesperson));
-  const crrAllPrev = prevRows.filter(r=>r.ordertype==='CRR' && crrNames.includes(r.salesperson));
-  const totalAllCur  = [...nbdAllCur, ...crrAllCur];
-  const totalAllPrev = [...nbdAllPrev, ...crrAllPrev];
+  const otherNames = Object.keys(ADMIN.departments).filter(sp=>ADMIN.departments[sp]==='OTHER');
+  const nbdAllCur   = curRows.filter(r=>r.ordertype==='NBD' && nbdNames.includes(r.salesperson));
+  const crrAllCur   = curRows.filter(r=>r.ordertype==='CRR' && crrNames.includes(r.salesperson));
+  const otherAllCur = curRows.filter(r=>otherNames.includes(r.salesperson));
+  const nbdAllPrev   = prevRows.filter(r=>r.ordertype==='NBD' && nbdNames.includes(r.salesperson));
+  const crrAllPrev   = prevRows.filter(r=>r.ordertype==='CRR' && crrNames.includes(r.salesperson));
+  const otherAllPrev = prevRows.filter(r=>otherNames.includes(r.salesperson));
+  // TOTAL is the true grand total for the period — every row, regardless of department
+  // assignment or order type — so it always matches reality even if someone is unassigned.
+  const totalAllCur  = curRows;
+  const totalAllPrev = prevRows;
 
   function overallCard(label, curArr, prevArr, color){
     const agg = aggregateRows(curArr);
@@ -2112,6 +2117,7 @@ function renderMisScoring(){
   document.getElementById('scoreOverallStrip').innerHTML =
     overallCard('CRR Team', crrAllCur, crrAllPrev, '#4a7ab5') +
     overallCard('NBD Team', nbdAllCur, nbdAllPrev, '#5c7a3d') +
+    overallCard('OTHER', otherAllCur, otherAllPrev, '#94a6b5') +
     overallCard('TOTAL', totalAllCur, totalAllPrev, '#5b3f8c');
 
   // ---- Per-salesperson scorecards (hidden salespeople excluded from the row list only)
@@ -2377,6 +2383,7 @@ function fillAdminForm(){
           <option value="" ${dept===''?'selected':''}>— dept —</option>
           <option value="NBD" ${dept==='NBD'?'selected':''}>NBD</option>
           <option value="CRR" ${dept==='CRR'?'selected':''}>CRR</option>
+          <option value="OTHER" ${dept==='OTHER'?'selected':''}>OTHER</option>
         </select>
         <input type="number" data-sp-salary="${sp}" placeholder="Salary ₹" value="${salary}">
         <input type="number" data-sp-crtarget="${sp}" placeholder="CR target %" value="${crTarget}">
