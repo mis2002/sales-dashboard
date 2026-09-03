@@ -96,6 +96,8 @@
   .kpi-mini{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
   .kpi-mini .lbl{font-size:10px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.04em;}
   .kpi-mini .val{font-size:16px;font-weight:800;margin-top:3px;}
+  .mis-panel .kpi-mini{color:#e9eef2;}
+  .mis-panel .kpi-mini .val{color:#fff;}
   .flag-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;}
 
   /* Admin modal */
@@ -117,6 +119,53 @@
   .modal-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
   .checkbox-row{display:flex;align-items:center;gap:8px;grid-column:1/-1;}
   .checkbox-row label{font-size:12.5px;color:var(--ink);}
+  .admin-check-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink);}
+  .admin-sp-row{display:grid;grid-template-columns:1fr 120px 110px;gap:10px;align-items:center;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;}
+  .admin-sp-row .sp-name{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .admin-sp-row select, .admin-sp-row input{background:#0F1720;border:1px solid var(--line);color:var(--ink);padding:6px 8px;border-radius:6px;font-size:12px;width:100%;}
+
+  /* MIS Sales Report — deliberately a light "printable report" card, distinct from the dark app chrome */
+  .panel.mis-panel{background:#fff;color:#1f2937;}
+  .mis-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:16px;}
+  .mis-title{font-size:19px;font-weight:800;color:#B3261E;letter-spacing:.01em;text-transform:uppercase;}
+  .mis-sub{font-size:12.5px;color:#6b7280;margin-top:5px;font-style:italic;}
+  .mis-panel .chart-toggle{background:#eef2f6;border-color:#d7dee6;}
+  .mis-panel .chart-toggle button{color:#475569;}
+  .mis-panel .chart-toggle button.active{background:#1f3a5f;color:#fff;}
+  .mis-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:920px;}
+  .mis-table th, .mis-table td{border:1px solid #dde3ea;padding:9px 10px;}
+  .mis-corner{background:#1f3a5f;color:#fff;font-weight:700;vertical-align:middle;text-align:left;}
+  .mis-grp{color:#fff;font-weight:700;text-align:center;letter-spacing:.03em;font-size:11.5px;}
+  .mis-crr{background:#4a7ab5;} .mis-nbd{background:#5c7a3d;} .mis-total{background:#5b3f8c;}
+  .mis-rank-head{background:#f5d90a;color:#3a3000;} .mis-growth-head{background:#334155;}
+  .mis-sub-head{font-weight:600;text-align:center;color:#334155;font-size:11px;}
+  .mis-crr-sub{background:#e3edf7;} .mis-nbd-sub{background:#eaf1e2;} .mis-total-sub{background:#ece6f5;}
+  .mis-table td{text-align:right;color:#1f2937;font-variant-numeric:tabular-nums;}
+  .mis-table td.mis-name{font-weight:700;text-align:left;color:#1f2937;}
+  .mis-grand td{background:#fdf1d3 !important;font-weight:800;}
+  .mis-growth-cell{font-weight:700;white-space:nowrap;}
+  .mis-growth-cell.up{color:#15803d;} .mis-growth-cell.down{color:#b91c1c;} .mis-growth-cell.flat{color:#6b7280;}
+  .mis-rank-cell{display:flex;align-items:center;justify-content:flex-end;gap:6px;}
+  .mis-rank-bar{height:13px;background:#34d399;border-radius:3px;min-width:6px;}
+
+  .uniq-tip-btn{background:#eef2f6;border:1px solid #cbd5e1;color:#1e3a8a;font-weight:700;font-size:12.5px;
+    padding:3px 10px;border-radius:20px;cursor:pointer;font-family:var(--font);transition:background .15s,transform .1s;}
+  .uniq-tip-btn:hover{background:#dbeafe;transform:translateY(-1px);}
+  .uniq-tip-btn:active{transform:translateY(0);}
+
+  /* MIS Scoring tab */
+  .mis2-grp{background:#475569;color:#fff;font-weight:700;text-align:center;font-size:11.5px;letter-spacing:.03em;}
+  .mis2-pl{background:#d4edda;color:#14532d;font-weight:600;text-align:center;font-size:10.5px;}
+  .mis2-act{background:#fef3c7;color:#78350f;font-weight:600;text-align:center;font-size:10.5px;}
+  .mis2-score{background:#dbeafe;color:#1e3a8a;font-weight:600;text-align:center;font-size:10.5px;}
+  .mis2-loss-head{background:#7f1d1d;color:#fff;font-weight:700;text-align:center;font-size:11.5px;}
+  .mis2-overall-head{background:#4c1d95;color:#fff;font-weight:700;text-align:center;font-size:11.5px;}
+  .mis2-growth-head2{background:#0e7490;color:#fff;font-weight:700;text-align:center;font-size:11.5px;}
+  .mis-cross-table th{background:#334155;color:#fff;font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;padding:8px 10px;}
+  .mis-cross-table td{border:1px solid #dde3ea;padding:8px 10px;color:#1f2937;font-variant-numeric:tabular-nums;}
+  .mis-cross-table th:first-child, .mis-cross-table td:first-child{text-align:left;}
+  .mis-cross-table th:not(:first-child), .mis-cross-table td:not(:first-child){text-align:right;}
+  .dept-note{background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:14px;}
   .flag-row .amt{color:var(--coral);font-weight:700;}
   .wk-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;min-width:0;}
   .wk-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--wc,var(--teal));}
@@ -210,9 +259,9 @@
     </div>
     <div class="sync-box">
       <div class="sync-status" id="syncStatus"><span class="live-dot" id="liveDot"></span>Connecting…</div>
-      <button class="util-btn" id="saveViewBtn" title="Remember current filters &amp; chart types for next time">💾 Save View</button>
-      <button class="util-btn" id="resetViewBtn" title="Clear saved filters and go back to defaults">↺ Reset</button>
-      <button class="util-btn" id="adminBtn" title="Admin settings (password protected)">⚙️ Admin</button>
+      <button class="util-btn" id="saveViewBtn" title="Remember current filters &amp; chart types for next time">Save View</button>
+      <button class="util-btn" id="resetViewBtn" title="Clear saved filters and go back to defaults">Reset</button>
+      <button class="util-btn" id="adminBtn" title="Admin settings (password protected)">Admin</button>
       <button class="refresh-btn" id="refreshBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
         Refresh
@@ -226,8 +275,9 @@
   <div id="dashboardBody" style="display:none">
 
     <div class="tabnav">
-      <button data-tab="main" class="active">📊 Main Dashboard</button>
-      <button data-tab="bi">🔎 BI Insights</button>
+      <button data-tab="main" class="active">Main Dashboard</button>
+      <button data-tab="bi">BI Insights</button>
+      <button data-tab="scoring">MIS Scoring</button>
     </div>
 
     <div class="filterbar">
@@ -291,16 +341,60 @@
 
     <div id="mainTab">
 
-    <div class="weekstrip-head">
-      <h2 id="weekStripTitle">Last 4 weeks — auto-updating</h2>
-      <span class="desc" id="weekStripDesc">Always shows the most recent 4 weeks in the sheet, week-over-week % change</span>
+    <div id="panel-weekstrip">
+      <div class="weekstrip-head">
+        <h2 id="weekStripTitle">Last 4 weeks — auto-updating</h2>
+        <span class="desc" id="weekStripDesc">Always shows the most recent 4 weeks in the sheet, week-over-week % change</span>
+      </div>
+      <div class="weekstrip" id="weekStrip"></div>
     </div>
-    <div class="weekstrip" id="weekStrip"></div>
 
     <div class="kpis" id="kpiRow"></div>
 
+    <div class="panel mis-panel" id="panel-mis">
+      <div class="mis-header">
+        <div>
+          <div class="mis-title">MIS Sales Report — <span id="misPeriodLabel">…</span></div>
+          <div class="mis-sub">Sales by Person &amp; Sales Type · Amounts in ₹ (without GST) · <span id="misCompareLabel">vs previous period</span></div>
+          <div class="mis-sub" id="misLinkNote" style="margin-top:2px"></div>
+        </div>
+        <div class="chart-toggle" data-target="misGran">
+          <button data-type="day">Daily</button>
+          <button data-type="week">Weekly</button>
+          <button data-type="month" class="active">Monthly</button>
+          <button data-type="year">Yearly</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="mis-table">
+          <thead>
+            <tr>
+              <th rowspan="2" class="mis-corner">Sales Person</th>
+              <th colspan="3" class="mis-grp mis-crr">CRR</th>
+              <th colspan="3" class="mis-grp mis-nbd">NBD</th>
+              <th colspan="3" class="mis-grp mis-total">TOTAL</th>
+              <th rowspan="2" class="mis-grp mis-growth-head">GROWTH</th>
+              <th rowspan="2" class="mis-grp mis-rank-head">RANK</th>
+            </tr>
+            <tr>
+              <th class="mis-sub-head mis-crr-sub">Inv Count</th>
+              <th class="mis-sub-head mis-crr-sub">Sales (W/O GST)</th>
+              <th class="mis-sub-head mis-crr-sub">Profit</th>
+              <th class="mis-sub-head mis-nbd-sub">Inv Count</th>
+              <th class="mis-sub-head mis-nbd-sub">Sales (W/O GST)</th>
+              <th class="mis-sub-head mis-nbd-sub">Profit</th>
+              <th class="mis-sub-head mis-total-sub">Inv Count</th>
+              <th class="mis-sub-head mis-total-sub">Sales (W/O GST)</th>
+              <th class="mis-sub-head mis-total-sub">Profit</th>
+            </tr>
+          </thead>
+          <tbody id="misTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="panel">
-      <div class="panel-head">
+      <div class="panel-head" id="panel-growth">
         <div>
           <h2 id="growthTitle">Salesperson-wise weekly growth</h2>
           <p class="desc" id="growthDesc">Per week, with week-over-week % change</p>
@@ -321,7 +415,7 @@
     </div>
 
     <div class="panel">
-      <div class="panel-head">
+      <div class="panel-head" id="panel-trend">
         <div>
           <h2 id="trendTitle">Sales trend</h2>
           <p class="desc" id="trendDesc">Filtered period, day by day</p>
@@ -347,7 +441,7 @@
 
     <div class="grid3">
       <div class="panel">
-        <div class="panel-head">
+        <div class="panel-head" id="panel-wow">
           <div>
             <h2>Week-over-week comparison</h2>
             <p class="desc" id="wowDesc">Weeks present in the current filter</p>
@@ -361,7 +455,7 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head">
+        <div class="panel-head" id="panel-split">
           <div>
             <h2>Order type split</h2>
             <p class="desc">CRR (repeat) vs NBD (new business)</p>
@@ -377,7 +471,7 @@
     </div>
 
     <div class="panel">
-      <div class="panel-head">
+      <div class="panel-head" id="panel-sp">
         <div>
           <h2>Salesperson performance</h2>
           <p class="desc" id="spDesc">Top 8 performers in the current filter</p>
@@ -393,7 +487,7 @@
     </div>
 
     <div class="panel">
-      <div class="panel-head">
+      <div class="panel-head" id="panel-customers">
         <div>
           <h2>Top customers</h2>
           <p class="desc" id="custDesc">Ranked by net sales, current filter</p>
@@ -419,14 +513,14 @@
 
       <div class="grid3">
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-revtaxprofit"><div>
             <h2>Revenue vs Tax vs Profit</h2>
             <p class="desc">Per week — see how much of billed value is tax vs your actual margin</p>
           </div></div>
           <div class="chart-box"><canvas id="biRevTaxProfit"></canvas></div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-invoicecount"><div>
             <h2 id="biInvCountTitle">Invoice count trend</h2>
             <p class="desc">How many bills were raised, over time</p>
           </div></div>
@@ -436,14 +530,14 @@
 
       <div class="grid3">
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-profitpie"><div>
             <h2>Profit contribution by salesperson</h2>
             <p class="desc">Share of total profit, current filter</p>
           </div></div>
           <div class="chart-box"><canvas id="biProfitPie"></canvas></div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-rank"><div>
             <h2>Top 5 / Bottom 5 salespersons</h2>
             <p class="desc" id="biRankDesc">Ranked by current metric</p>
           </div></div>
@@ -461,14 +555,14 @@
 
       <div class="grid3">
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-repeatpie"><div>
             <h2>Repeat vs one-time customers</h2>
             <p class="desc">Based on your CRR (repeat) / NBD (new) Order Type field</p>
           </div></div>
           <div class="chart-box"><canvas id="biRepeatPie"></canvas></div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-margin"><div>
             <h2>Customer profit-margin leaderboard</h2>
             <p class="desc">Top 10 by GP % (customers with 2+ invoices)</p>
           </div></div>
@@ -481,14 +575,14 @@
 
       <div class="grid3">
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-profitdist"><div>
             <h2>Profit % per invoice — distribution</h2>
             <p class="desc">How many invoices fall in each margin band</p>
           </div></div>
           <div class="chart-box"><canvas id="biProfitDist"></canvas></div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-flag"><div>
             <h2>Zero / low-profit orders</h2>
             <p class="desc" id="biFlagDesc">Invoices with 0% or negative margin</p>
           </div></div>
@@ -498,14 +592,14 @@
 
       <div class="grid3">
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-efficiency"><div>
             <h2>Salesperson efficiency</h2>
             <p class="desc">Average profit per order — rewards quality, not just volume</p>
           </div></div>
           <div class="chart-box"><canvas id="biEfficiency"></canvas></div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div>
+          <div class="panel-head" id="panel-bi-taxtrend"><div>
             <h2>Tax collected</h2>
             <p class="desc" id="biTaxDesc">Trend over the current filter</p>
           </div></div>
@@ -514,7 +608,7 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><div>
+        <div class="panel-head" id="panel-bi-outlier"><div>
           <h2>Unusually large invoices</h2>
           <p class="desc" id="biOutlierDesc">Statistical outliers worth a quick sanity check</p>
         </div></div>
@@ -523,14 +617,135 @@
 
     </div><!-- /biTab -->
 
+    <div id="scoringTab" style="display:none">
+      <div class="panel mis-panel">
+        <div class="mis-header">
+          <div>
+            <div class="mis-title" style="color:#4c1d95">MIS SCORING — <span id="scorePeriodLabel">…</span></div>
+            <div class="mis-sub">Plan vs Actual, department-wise · All amounts are without GST · Score = round(Actual ÷ Plan × 100 − 100, 2)</div>
+            <div class="mis-sub" id="scoreLinkNote" style="margin-top:2px"></div>
+          </div>
+          <div class="chart-toggle" data-target="scoreGran">
+            <button data-type="day">Daily</button>
+            <button data-type="week" class="active">Weekly</button>
+            <button data-type="month">Monthly</button>
+            <button data-type="year">Yearly</button>
+          </div>
+        </div>
+        <div id="deptNoteBox"></div>
+
+        <h3 style="margin:6px 0 8px;font-size:15px;color:#1f3a5f">Overall Report — this period vs previous</h3>
+        <div class="kpi-mini-row" id="scoreOverallStrip" style="margin-bottom:6px"></div>
+
+        <h3 style="margin:18px 0 8px;font-size:15px;color:#1f3a5f">NBD Team — Scorecard</h3>
+        <div class="table-scroll">
+          <table class="mis-table">
+            <thead>
+              <tr>
+                <th rowspan="2" class="mis-corner">Sales Person</th>
+                <th rowspan="2" class="mis-corner" style="background:#0f766e">Uniq.<br>Customers</th>
+                <th colspan="3" class="mis2-grp">Avg Rs Sale</th>
+                <th colspan="3" class="mis2-grp">Revenue (Profit × 10)</th>
+                <th colspan="3" class="mis2-grp" id="nbdProfitHead">Profit (Salary×10 ÷ 4)</th>
+                <th rowspan="2" class="mis2-growth-head2">Growth<br>vs Prev</th>
+                <th rowspan="2" class="mis2-loss-head">Loss</th>
+                <th rowspan="2" class="mis2-overall-head">Overall<br>Score</th>
+              </tr>
+              <tr>
+                <th class="mis2-pl">Plan</th><th class="mis2-act">Actual</th><th class="mis2-score">Score</th>
+                <th class="mis2-pl">Plan</th><th class="mis2-act">Actual</th><th class="mis2-score">Score</th>
+                <th class="mis2-pl">Plan</th><th class="mis2-act">Actual</th><th class="mis2-score">Score</th>
+              </tr>
+            </thead>
+            <tbody id="nbdScoreBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-scroll" style="margin-top:10px">
+          <table class="mis-cross-table" style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead><tr>
+              <th>NBD Team — CRR orders brought in (same period)</th>
+              <th style="text-align:right">Uniq. Customers</th>
+              <th style="text-align:right">CRR Invoices</th>
+              <th style="text-align:right">CRR Sales (W/O GST)</th>
+              <th style="text-align:right">CRR Profit</th>
+              <th style="text-align:right">Profit Margin</th>
+              <th style="text-align:right">Margin Growth</th>
+            </tr></thead>
+            <tbody id="nbdCrossBody"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin:26px 0 8px;font-size:15px;color:#1f3a5f">CRR Team — Scorecard</h3>
+        <div class="table-scroll">
+          <table class="mis-table">
+            <thead>
+              <tr>
+                <th rowspan="2" class="mis-corner">Sales Person</th>
+                <th rowspan="2" class="mis-corner" style="background:#0f766e">Uniq.<br>Customers</th>
+                <th colspan="3" class="mis2-grp">Avg Rs Sale</th>
+                <th colspan="3" class="mis2-grp">Revenue (Profit × 20)</th>
+                <th colspan="3" class="mis2-grp" id="crrProfitHead">Profit (Salary×20 ÷ 4)</th>
+                <th rowspan="2" class="mis2-growth-head2">Growth<br>vs Prev</th>
+                <th rowspan="2" class="mis2-loss-head">Loss</th>
+                <th rowspan="2" class="mis2-overall-head">Overall<br>Score</th>
+              </tr>
+              <tr>
+                <th class="mis2-pl">Plan</th><th class="mis2-act">Actual</th><th class="mis2-score">Score</th>
+                <th class="mis2-pl">Plan</th><th class="mis2-act">Actual</th><th class="mis2-score">Score</th>
+                <th class="mis2-pl">Plan</th><th class="mis2-act">Actual</th><th class="mis2-score">Score</th>
+              </tr>
+            </thead>
+            <tbody id="crrScoreBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-scroll" style="margin-top:10px">
+          <table class="mis-cross-table" style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead><tr>
+              <th>CRR Team — NBD orders brought in (same period)</th>
+              <th style="text-align:right">Uniq. Customers</th>
+              <th style="text-align:right">NBD Invoices</th>
+              <th style="text-align:right">NBD Sales (W/O GST)</th>
+              <th style="text-align:right">NBD Profit</th>
+              <th style="text-align:right">Profit Margin</th>
+              <th style="text-align:right">Margin Growth</th>
+            </tr></thead>
+            <tbody id="crrCrossBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /scoringTab -->
+
     <footer>Weeks run Monday–Saturday · Values in INR · Data pulled live from your Google Sheet</footer>
+  </div>
+</div>
+
+<div class="modal-overlay" id="custPopupOverlay">
+  <div class="modal-box" id="custPopupBox" style="max-width:92vw;width:700px;height:75vh;min-width:440px;min-height:280px;resize:both;overflow:auto;display:flex;flex-direction:column;">
+    <div class="modal-head" style="flex:0 0 auto;">
+      <h3 id="custPopupTitle">Customers</h3>
+      <button class="modal-close" id="custPopupClose">✕</button>
+    </div>
+    <p style="flex:0 0 auto;font-size:10.5px;color:var(--ink-dim);margin:-8px 0 8px">Drag the bottom-right corner to resize this window.</p>
+    <div style="flex:1 1 auto;overflow:auto;min-height:0">
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;table-layout:auto">
+        <thead><tr>
+          <th style="text-align:left;padding:8px;color:var(--ink-dim);font-size:10.5px;text-transform:uppercase;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);white-space:nowrap">Customer</th>
+          <th style="text-align:right;padding:8px;color:var(--ink-dim);font-size:10.5px;text-transform:uppercase;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);white-space:nowrap">Sales (W/O GST)</th>
+          <th style="text-align:right;padding:8px;color:var(--ink-dim);font-size:10.5px;text-transform:uppercase;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);white-space:nowrap">Profit</th>
+          <th style="text-align:right;padding:8px;color:var(--ink-dim);font-size:10.5px;text-transform:uppercase;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);white-space:nowrap">Margin</th>
+        </tr></thead>
+        <tbody id="custPopupBody"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="adminModalOverlay">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>⚙️ Admin Settings</h3>
+      <h3>Admin Settings</h3>
       <button class="modal-close" id="adminModalClose">✕</button>
     </div>
 
@@ -599,10 +814,18 @@
           <input type="number" id="admLowProfit" min="0" step="1">
           <span class="hint">Flags any invoice with margin at/below this — 0 means only zero/negative</span>
         </div>
+
+        <div class="admin-section-label">Show / hide charts &amp; tables</div>
+        <div style="grid-column:1/-1;font-size:11px;color:var(--ink-dim);margin-top:-6px;margin-bottom:4px">Untick anything you don't want to see — it stays off until you tick it again here.</div>
+        <div id="admPanelList" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;max-height:220px;overflow-y:auto;padding-right:6px"></div>
+
+        <div class="admin-section-label">Salesperson salary &amp; department</div>
+        <div style="grid-column:1/-1;font-size:11px;color:var(--ink-dim);margin-top:-6px;margin-bottom:4px">Used for incentive/scoring calculations. Add a new salesperson's salary here as soon as they join. The "CR target %" field is reserved for a future Conversion Ratio score — it isn't used anywhere yet since there's no leads/enquiries data to compute an actual against it.</div>
+        <div id="admSalespersonList" style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;padding-right:6px"></div>
       </div>
       <div class="modal-actions">
-        <button class="util-btn saved" id="adminSaveBtn">💾 Save &amp; Reload</button>
-        <button class="util-btn" id="adminDefaultsBtn">↺ Restore Defaults</button>
+        <button class="util-btn saved" id="adminSaveBtn">Save &amp; Reload</button>
+        <button class="util-btn" id="adminDefaultsBtn">Restore Defaults</button>
       </div>
     </div>
   </div>
@@ -626,6 +849,16 @@
 
 </script>
 <script>
+/*!
+ * chartjs-plugin-datalabels v2.2.0
+ * https://chartjs-plugin-datalabels.netlify.app
+ * (c) 2017-2022 chartjs-plugin-datalabels contributors
+ * Released under the MIT license
+ */
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e(require("chart.js/helpers"),require("chart.js")):"function"==typeof define&&define.amd?define(["chart.js/helpers","chart.js"],e):(t="undefined"!=typeof globalThis?globalThis:t||self).ChartDataLabels=e(t.Chart.helpers,t.Chart)}(this,(function(t,e){"use strict";var r=function(){if("undefined"!=typeof window){if(window.devicePixelRatio)return window.devicePixelRatio;var t=window.screen;if(t)return(t.deviceXDPI||1)/(t.logicalXDPI||1)}return 1}(),a=function(e){var r,a=[];for(e=[].concat(e);e.length;)"string"==typeof(r=e.pop())?a.unshift.apply(a,r.split("\n")):Array.isArray(r)?e.push.apply(e,r):t.isNullOrUndef(e)||a.unshift(""+r);return a},o=function(t,e,r){var a,o=[].concat(e),n=o.length,i=t.font,l=0;for(t.font=r.string,a=0;a<n;++a)l=Math.max(t.measureText(o[a]).width,l);return t.font=i,{height:n*r.lineHeight,width:l}},n=function(t,e,r){return Math.max(t,Math.min(e,r))},i=function(t,e){var r,a,o,n,i=t.slice(),l=[];for(r=0,o=e.length;r<o;++r)n=e[r],-1===(a=i.indexOf(n))?l.push([n,1]):i.splice(a,1);for(r=0,o=i.length;r<o;++r)l.push([i[r],-1]);return l};function l(t,e){var r=e.x,a=e.y;if(null===r)return{x:0,y:-1};if(null===a)return{x:1,y:0};var o=t.x-r,n=t.y-a,i=Math.sqrt(o*o+n*n);return{x:i?o/i:0,y:i?n/i:-1}}function s(t,e,r){var a=0;return t<r.left?a|=1:t>r.right&&(a|=2),e<r.top?a|=8:e>r.bottom&&(a|=4),a}function u(t,e){var r,a,o=e.anchor,n=t;return e.clamp&&(n=function(t,e){for(var r,a,o,n=t.x0,i=t.y0,l=t.x1,u=t.y1,d=s(n,i,e),c=s(l,u,e);d|c&&!(d&c);)8&(r=d||c)?(a=n+(l-n)*(e.top-i)/(u-i),o=e.top):4&r?(a=n+(l-n)*(e.bottom-i)/(u-i),o=e.bottom):2&r?(o=i+(u-i)*(e.right-n)/(l-n),a=e.right):1&r&&(o=i+(u-i)*(e.left-n)/(l-n),a=e.left),r===d?d=s(n=a,i=o,e):c=s(l=a,u=o,e);return{x0:n,x1:l,y0:i,y1:u}}(n,e.area)),"start"===o?(r=n.x0,a=n.y0):"end"===o?(r=n.x1,a=n.y1):(r=(n.x0+n.x1)/2,a=(n.y0+n.y1)/2),function(t,e,r,a,o){switch(o){case"center":r=a=0;break;case"bottom":r=0,a=1;break;case"right":r=1,a=0;break;case"left":r=-1,a=0;break;case"top":r=0,a=-1;break;case"start":r=-r,a=-a;break;case"end":break;default:o*=Math.PI/180,r=Math.cos(o),a=Math.sin(o)}return{x:t,y:e,vx:r,vy:a}}(r,a,t.vx,t.vy,e.align)}var d=function(t,e){var r=(t.startAngle+t.endAngle)/2,a=Math.cos(r),o=Math.sin(r),n=t.innerRadius,i=t.outerRadius;return u({x0:t.x+a*n,y0:t.y+o*n,x1:t.x+a*i,y1:t.y+o*i,vx:a,vy:o},e)},c=function(t,e){var r=l(t,e.origin),a=r.x*t.options.radius,o=r.y*t.options.radius;return u({x0:t.x-a,y0:t.y-o,x1:t.x+a,y1:t.y+o,vx:r.x,vy:r.y},e)},h=function(t,e){var r=l(t,e.origin),a=t.x,o=t.y,n=0,i=0;return t.horizontal?(a=Math.min(t.x,t.base),n=Math.abs(t.base-t.x)):(o=Math.min(t.y,t.base),i=Math.abs(t.base-t.y)),u({x0:a,y0:o+i,x1:a+n,y1:o,vx:r.x,vy:r.y},e)},f=function(t,e){var r=l(t,e.origin);return u({x0:t.x,y0:t.y,x1:t.x+(t.width||0),y1:t.y+(t.height||0),vx:r.x,vy:r.y},e)},x=function(t){return Math.round(t*r)/r};function y(t,e){var r=e.chart.getDatasetMeta(e.datasetIndex).vScale;if(!r)return null;if(void 0!==r.xCenter&&void 0!==r.yCenter)return{x:r.xCenter,y:r.yCenter};var a=r.getBasePixel();return t.horizontal?{x:a,y:null}:{x:null,y:a}}function v(t,e,r){var a=r.backgroundColor,o=r.borderColor,n=r.borderWidth;(a||o&&n)&&(t.beginPath(),function(t,e,r,a,o,n){var i=Math.PI/2;if(n){var l=Math.min(n,o/2,a/2),s=e+l,u=r+l,d=e+a-l,c=r+o-l;t.moveTo(e,u),s<d&&u<c?(t.arc(s,u,l,-Math.PI,-i),t.arc(d,u,l,-i,0),t.arc(d,c,l,0,i),t.arc(s,c,l,i,Math.PI)):s<d?(t.moveTo(s,r),t.arc(d,u,l,-i,i),t.arc(s,u,l,i,Math.PI+i)):u<c?(t.arc(s,u,l,-Math.PI,0),t.arc(s,c,l,0,Math.PI)):t.arc(s,u,l,-Math.PI,Math.PI),t.closePath(),t.moveTo(e,r)}else t.rect(e,r,a,o)}(t,x(e.x)+n/2,x(e.y)+n/2,x(e.w)-n,x(e.h)-n,r.borderRadius),t.closePath(),a&&(t.fillStyle=a,t.fill()),o&&n&&(t.strokeStyle=o,t.lineWidth=n,t.lineJoin="miter",t.stroke()))}function b(t,e,r){var a=t.shadowBlur,o=r.stroked,n=x(r.x),i=x(r.y),l=x(r.w);o&&t.strokeText(e,n,i,l),r.filled&&(a&&o&&(t.shadowBlur=0),t.fillText(e,n,i,l),a&&o&&(t.shadowBlur=a))}var _=function(t,e,r,a){var o=this;o._config=t,o._index=a,o._model=null,o._rects=null,o._ctx=e,o._el=r};t.merge(_.prototype,{_modelize:function(r,a,n,i){var l,s=this,u=s._index,x=t.toFont(t.resolve([n.font,{}],i,u)),v=t.resolve([n.color,e.defaults.color],i,u);return{align:t.resolve([n.align,"center"],i,u),anchor:t.resolve([n.anchor,"center"],i,u),area:i.chart.chartArea,backgroundColor:t.resolve([n.backgroundColor,null],i,u),borderColor:t.resolve([n.borderColor,null],i,u),borderRadius:t.resolve([n.borderRadius,0],i,u),borderWidth:t.resolve([n.borderWidth,0],i,u),clamp:t.resolve([n.clamp,!1],i,u),clip:t.resolve([n.clip,!1],i,u),color:v,display:r,font:x,lines:a,offset:t.resolve([n.offset,4],i,u),opacity:t.resolve([n.opacity,1],i,u),origin:y(s._el,i),padding:t.toPadding(t.resolve([n.padding,4],i,u)),positioner:(l=s._el,l instanceof e.ArcElement?d:l instanceof e.PointElement?c:l instanceof e.BarElement?h:f),rotation:t.resolve([n.rotation,0],i,u)*(Math.PI/180),size:o(s._ctx,a,x),textAlign:t.resolve([n.textAlign,"start"],i,u),textShadowBlur:t.resolve([n.textShadowBlur,0],i,u),textShadowColor:t.resolve([n.textShadowColor,v],i,u),textStrokeColor:t.resolve([n.textStrokeColor,v],i,u),textStrokeWidth:t.resolve([n.textStrokeWidth,0],i,u)}},update:function(e){var r,o,n,i=this,l=null,s=null,u=i._index,d=i._config,c=t.resolve([d.display,!0],e,u);c&&(r=e.dataset.data[u],o=t.valueOrDefault(t.callback(d.formatter,[r,e]),r),(n=t.isNullOrUndef(o)?[]:a(o)).length&&(s=function(t){var e=t.borderWidth||0,r=t.padding,a=t.size.height,o=t.size.width,n=-o/2,i=-a/2;return{frame:{x:n-r.left-e,y:i-r.top-e,w:o+r.width+2*e,h:a+r.height+2*e},text:{x:n,y:i,w:o,h:a}}}(l=i._modelize(c,n,d,e)))),i._model=l,i._rects=s},geometry:function(){return this._rects?this._rects.frame:{}},rotation:function(){return this._model?this._model.rotation:0},visible:function(){return this._model&&this._model.opacity},model:function(){return this._model},draw:function(t,e){var r,a=t.ctx,o=this._model,i=this._rects;this.visible()&&(a.save(),o.clip&&(r=o.area,a.beginPath(),a.rect(r.left,r.top,r.right-r.left,r.bottom-r.top),a.clip()),a.globalAlpha=n(0,o.opacity,1),a.translate(x(e.x),x(e.y)),a.rotate(o.rotation),v(a,i.frame,o),function(t,e,r,a){var o,n=a.textAlign,i=a.color,l=!!i,s=a.font,u=e.length,d=a.textStrokeColor,c=a.textStrokeWidth,h=d&&c;if(u&&(l||h))for(r=function(t,e,r){var a=r.lineHeight,o=t.w,n=t.x;return"center"===e?n+=o/2:"end"!==e&&"right"!==e||(n+=o),{h:a,w:o,x:n,y:t.y+a/2}}(r,n,s),t.font=s.string,t.textAlign=n,t.textBaseline="middle",t.shadowBlur=a.textShadowBlur,t.shadowColor=a.textShadowColor,l&&(t.fillStyle=i),h&&(t.lineJoin="round",t.lineWidth=c,t.strokeStyle=d),o=0,u=e.length;o<u;++o)b(t,e[o],{stroked:h,filled:l,w:r.w,x:r.x,y:r.y+r.h*o})}(a,o.lines,i.text,o),a.restore())}});var p=Number.MIN_SAFE_INTEGER||-9007199254740991,g=Number.MAX_SAFE_INTEGER||9007199254740991;function m(t,e,r){var a=Math.cos(r),o=Math.sin(r),n=e.x,i=e.y;return{x:n+a*(t.x-n)-o*(t.y-i),y:i+o*(t.x-n)+a*(t.y-i)}}function w(t,e){var r,a,o,n,i,l=g,s=p,u=e.origin;for(r=0;r<t.length;++r)o=(a=t[r]).x-u.x,n=a.y-u.y,i=e.vx*o+e.vy*n,l=Math.min(l,i),s=Math.max(s,i);return{min:l,max:s}}function M(t,e){var r=e.x-t.x,a=e.y-t.y,o=Math.sqrt(r*r+a*a);return{vx:(e.x-t.x)/o,vy:(e.y-t.y)/o,origin:t,ln:o}}var k=function(){this._rotation=0,this._rect={x:0,y:0,w:0,h:0}};function $(t,e,r){var a=e.positioner(t,e),o=a.vx,n=a.vy;if(!o&&!n)return{x:a.x,y:a.y};var i=r.w,l=r.h,s=e.rotation,u=Math.abs(i/2*Math.cos(s))+Math.abs(l/2*Math.sin(s)),d=Math.abs(i/2*Math.sin(s))+Math.abs(l/2*Math.cos(s)),c=1/Math.max(Math.abs(o),Math.abs(n));return u*=o*c,d*=n*c,u+=e.offset*o,d+=e.offset*n,{x:a.x+u,y:a.y+d}}t.merge(k.prototype,{center:function(){var t=this._rect;return{x:t.x+t.w/2,y:t.y+t.h/2}},update:function(t,e,r){this._rotation=r,this._rect={x:e.x+t.x,y:e.y+t.y,w:e.w,h:e.h}},contains:function(t){var e=this,r=e._rect;return!((t=m(t,e.center(),-e._rotation)).x<r.x-1||t.y<r.y-1||t.x>r.x+r.w+2||t.y>r.y+r.h+2)},intersects:function(t){var e,r,a,o=this._points(),n=t._points(),i=[M(o[0],o[1]),M(o[0],o[3])];for(this._rotation!==t._rotation&&i.push(M(n[0],n[1]),M(n[0],n[3])),e=0;e<i.length;++e)if(r=w(o,i[e]),a=w(n,i[e]),r.max<a.min||a.max<r.min)return!1;return!0},_points:function(){var t=this,e=t._rect,r=t._rotation,a=t.center();return[m({x:e.x,y:e.y},a,r),m({x:e.x+e.w,y:e.y},a,r),m({x:e.x+e.w,y:e.y+e.h},a,r),m({x:e.x,y:e.y+e.h},a,r)]}});var C={prepare:function(t){var e,r,a,o,n,i=[];for(e=0,a=t.length;e<a;++e)for(r=0,o=t[e].length;r<o;++r)n=t[e][r],i.push(n),n.$layout={_box:new k,_hidable:!1,_visible:!0,_set:e,_idx:n._index};return i.sort((function(t,e){var r=t.$layout,a=e.$layout;return r._idx===a._idx?a._set-r._set:a._idx-r._idx})),this.update(i),i},update:function(t){var e,r,a,o,n,i=!1;for(e=0,r=t.length;e<r;++e)o=(a=t[e]).model(),(n=a.$layout)._hidable=o&&"auto"===o.display,n._visible=a.visible(),i|=n._hidable;i&&function(t){var e,r,a,o,n,i,l;for(e=0,r=t.length;e<r;++e)(o=(a=t[e]).$layout)._visible&&(l=new Proxy(a._el,{get:(t,e)=>t.getProps([e],!0)[e]}),n=a.geometry(),i=$(l,a.model(),n),o._box.update(i,n,a.rotation()));(function(t,e){var r,a,o,n;for(r=t.length-1;r>=0;--r)for(o=t[r].$layout,a=r-1;a>=0&&o._visible;--a)(n=t[a].$layout)._visible&&o._box.intersects(n._box)&&e(o,n)})(t,(function(t,e){var r=t._hidable,a=e._hidable;r&&a||a?e._visible=!1:r&&(t._visible=!1)}))}(t)},lookup:function(t,e){var r,a;for(r=t.length-1;r>=0;--r)if((a=t[r].$layout)&&a._visible&&a._box.contains(e))return t[r];return null},draw:function(t,e){var r,a,o,n,i,l;for(r=0,a=e.length;r<a;++r)(n=(o=e[r]).$layout)._visible&&(i=o.geometry(),l=$(o._el,o.model(),i),n._box.update(l,i,o.rotation()),o.draw(t,l))}},P="$default";function S(e,r,a,o){if(r){var n,i=a.$context,l=a.$groups;r[l._set]&&(n=r[l._set][l._key])&&!0===t.callback(n,[i,o])&&(e.$datalabels._dirty=!0,a.update(i))}}function I(t,e){var r,a,o=t.$datalabels,n=o._listeners;if(n.enter||n.leave){if("mousemove"===e.type)a=C.lookup(o._labels,e);else if("mouseout"!==e.type)return;r=o._hovered,o._hovered=a,function(t,e,r,a,o){var n,i;(r||a)&&(r?a?r!==a&&(i=n=!0):i=!0:n=!0,i&&S(t,e.leave,r,o),n&&S(t,e.enter,a,o))}(t,n,r,a,e)}}return{id:"datalabels",defaults:{align:"center",anchor:"center",backgroundColor:null,borderColor:null,borderRadius:0,borderWidth:0,clamp:!1,clip:!1,color:void 0,display:!0,font:{family:void 0,lineHeight:1.2,size:void 0,style:void 0,weight:null},formatter:function(e){if(t.isNullOrUndef(e))return null;var r,a,o,n=e;if(t.isObject(e))if(t.isNullOrUndef(e.label))if(t.isNullOrUndef(e.r))for(n="",o=0,a=(r=Object.keys(e)).length;o<a;++o)n+=(0!==o?", ":"")+r[o]+": "+e[r[o]];else n=e.r;else n=e.label;return""+n},labels:void 0,listeners:{},offset:4,opacity:1,padding:{top:4,right:4,bottom:4,left:4},rotation:0,textAlign:"start",textStrokeColor:void 0,textStrokeWidth:0,textShadowBlur:0,textShadowColor:void 0},beforeInit:function(t){t.$datalabels={_actives:[]}},beforeUpdate:function(t){var e=t.$datalabels;e._listened=!1,e._listeners={},e._datasets=[],e._labels=[]},afterDatasetUpdate:function(e,r,a){var o,n,i,l,s,u,d,c,h=r.index,f=e.$datalabels,x=f._datasets[h]=[],y=e.isDatasetVisible(h),v=e.data.datasets[h],b=function(e,r){var a,o,n,i=e.datalabels,l=[];return!1===i?null:(!0===i&&(i={}),r=t.merge({},[r,i]),o=r.labels||{},n=Object.keys(o),delete r.labels,n.length?n.forEach((function(e){o[e]&&l.push(t.merge({},[r,o[e],{_key:e}]))})):l.push(r),a=l.reduce((function(e,r){return t.each(r.listeners||{},(function(t,a){e[a]=e[a]||{},e[a][r._key||P]=t})),delete r.listeners,e}),{}),{labels:l,listeners:a})}(v,a),p=r.meta.data||[],g=e.ctx;for(g.save(),o=0,i=p.length;o<i;++o)if((d=p[o]).$datalabels=[],y&&d&&e.getDataVisibility(o)&&!d.skip)for(n=0,l=b.labels.length;n<l;++n)u=(s=b.labels[n])._key,(c=new _(s,g,d,o)).$groups={_set:h,_key:u||P},c.$context={active:!1,chart:e,dataIndex:o,dataset:v,datasetIndex:h},c.update(c.$context),d.$datalabels.push(c),x.push(c);g.restore(),t.merge(f._listeners,b.listeners,{merger:function(t,e,a){e[t]=e[t]||{},e[t][r.index]=a[t],f._listened=!0}})},afterUpdate:function(t){t.$datalabels._labels=C.prepare(t.$datalabels._datasets)},afterDatasetsDraw:function(t){C.draw(t,t.$datalabels._labels)},beforeEvent:function(t,e){if(t.$datalabels._listened){var r=e.event;switch(r.type){case"mousemove":case"mouseout":I(t,r);break;case"click":!function(t,e){var r=t.$datalabels,a=r._listeners.click,o=a&&C.lookup(r._labels,e);o&&S(t,a,o,e)}(t,r)}}},afterEvent:function(t){var e,r,a,o,n,l,s,u=t.$datalabels,d=u._actives,c=u._actives=t.getActiveElements(),h=i(d,c);for(e=0,r=h.length;e<r;++e)if((n=h[e])[1])for(a=0,o=(s=n[0].element.$datalabels||[]).length;a<o;++a)(l=s[a]).$context.active=1===n[1],l.update(l.$context);(u._dirty||h.length)&&(C.update(u._labels),t.render()),delete u._dirty}}}));
+
+</script>
+<script>
 /* ========================= CONFIG (factory defaults) ========================= */
 const CONFIG = {
   SHEET_ID: '1iTwR2ye-jGKasIbvj4xsq1znuI7ZrbbPcwJZ3AyUIeQ',
@@ -635,11 +868,36 @@ const CONFIG = {
 /* ============================================================================ */
 
 /* ========================= ADMIN SETTINGS =========================
-   Everything here can be changed from the ⚙️ Admin panel (password: 0000)
+   Everything here can be changed from the Admin panel (password: 0000)
    without touching this file — it's stored in the browser's localStorage
    and layered on top of the CONFIG defaults above. */
 const ADMIN_PASSWORD = '0000';
 const ADMIN_SETTINGS_KEY = 'pnp_dashboard_admin_settings_v1';
+
+// Every toggle-able chart/table in the dashboard, so Admin can show/hide by name without touching code.
+const PANEL_REGISTRY = [
+  { key:'panel-weekstrip',          label:'Main — Last 4 Weeks strip' },
+  { key:'panel-mis',                label:'Main — MIS Sales Report' },
+  { key:'panel-growth',             label:'Main — Salesperson Weekly Growth table' },
+  { key:'panel-trend',              label:'Main — Sales Trend chart' },
+  { key:'panel-wow',                label:'Main — Week-over-Week chart' },
+  { key:'panel-split',              label:'Main — Order Type Split chart' },
+  { key:'panel-sp',                 label:'Main — Salesperson Performance chart' },
+  { key:'panel-customers',          label:'Main — Top Customers table' },
+  { key:'biTopKpis',                label:'BI Insights — Mini KPI row' },
+  { key:'panel-bi-revtaxprofit',    label:'BI Insights — Revenue vs Tax vs Profit' },
+  { key:'panel-bi-invoicecount',    label:'BI Insights — Invoice Count trend' },
+  { key:'panel-bi-profitpie',       label:'BI Insights — Profit Contribution pie' },
+  { key:'panel-bi-rank',            label:'BI Insights — Top 5 / Bottom 5 ranking' },
+  { key:'panel-bi-repeatpie',       label:'BI Insights — Repeat vs One-time pie' },
+  { key:'panel-bi-margin',          label:'BI Insights — Customer Margin leaderboard' },
+  { key:'panel-bi-profitdist',      label:'BI Insights — Profit % Distribution' },
+  { key:'panel-bi-flag',            label:'BI Insights — Zero/Low-Profit flags' },
+  { key:'panel-bi-efficiency',      label:'BI Insights — Salesperson Efficiency' },
+  { key:'panel-bi-taxtrend',        label:'BI Insights — Tax Collected trend' },
+  { key:'panel-bi-outlier',         label:'BI Insights — Unusual Invoices' }
+];
+
 const DEFAULT_ADMIN_SETTINGS = {
   sheetId: CONFIG.SHEET_ID,
   gid: CONFIG.GID,
@@ -650,7 +908,12 @@ const DEFAULT_ADMIN_SETTINGS = {
   topCustomersN: 15,
   topSalespersonN: 8,
   outlierSD: 2,
-  lowProfitPct: 0
+  lowProfitPct: 0,
+  visiblePanels: {},   // { [panelKey]: false } — anything not listed defaults to visible
+  salaries: {},        // { [salespersonName]: monthlySalary } — for future incentive/scoring use
+  departments: {},      // { [salespersonName]: 'NBD' | 'CRR' } — for future incentive/scoring use
+  crTargets: {},         // { [salespersonName]: targetConversionRatioPercent }
+  hiddenFromMis: {}       // { [salespersonName]: true } — their data still counts in totals, just not shown as a named row
 };
 function loadAdminSettings(){
   try{
@@ -665,6 +928,14 @@ CONFIG.SHEET_ID = ADMIN.sheetId;
 CONFIG.GID = ADMIN.gid;
 CONFIG.REFRESH_MS = ADMIN.refreshSeconds * 1000;
 /* ==================================================================== */
+
+// Data-label plugin: registered globally but OFF by default. Individual charts turn it on
+// with their own formatter; display:'auto' lets the plugin itself hide labels that would
+// overlap, so charts never get cluttered no matter how much data comes in.
+if(window.ChartDataLabels){
+  Chart.register(ChartDataLabels);
+  Chart.defaults.set('plugins.datalabels', { display:false });
+}
 
 const fmtINR = n => (n<0?'-':'')+'₹' + (Math.abs(n)>=10000000 ? (Math.abs(n)/10000000).toFixed(2)+' Cr' : Math.abs(n)>=100000 ? (Math.abs(n)/100000).toFixed(2)+' L' : Math.abs(n).toLocaleString('en-IN',{maximumFractionDigits:0}));
 const fmtNum = n => n.toLocaleString('en-IN');
@@ -693,7 +964,9 @@ let state = {
   rangeStart: null,
   rangeEnd: null,
   trendGran: 'auto',  // auto | day | week | month | year — manual override for the Sales trend panel
-  growthGran: 'week'  // day | week | month | year — granularity for the Salesperson-wise growth table
+  growthGran: 'week', // day | week | month | year — granularity for the Salesperson-wise growth table
+  misGran: 'month',   // day | week | month | year — granularity for the MIS Sales Report
+  scoreGran: 'week'   // day | week | month | year — granularity for MIS Scoring
 };
 
 /* ---------------------- Fetch & parse ---------------------- */
@@ -1052,6 +1325,58 @@ function renderKPIs(){
     </div>`).join('');
 }
 
+/* ---------------------- Linking MIS reports to the main filter ----------------------
+   When the main "View" filter is set to a specific Week / Month / Custom Range, the MIS
+   Sales Report and MIS Scoring reports show exactly THAT period as "current" and the
+   equal-length period immediately before it as "previous" — so changing the main filter
+   actually changes these reports, matching how a real MIS report works. When the main
+   filter is "All Time" there's no single period to lock onto, so these reports fall back
+   to their own Daily/Weekly/Monthly/Yearly toggle and always show the latest such period. */
+function getCurrentAndPreviousPeriod(rows){
+  if(state.mode==='WEEK' && state.weekKey!=null){
+    const weeksHere = weeksInScope(rows);
+    const idx = weeksHere.findIndex(w=>w.key===state.weekKey);
+    const curDef = idx>=0 ? weeksHere[idx] : null;
+    const prevDef = idx>0 ? weeksHere[idx-1] : null;
+    return {
+      curRows: rows.filter(r=>r.weekKey===state.weekKey),
+      prevRows: prevDef ? rows.filter(r=>r.weekKey===prevDef.key) : [],
+      curLabel: curDef ? `${curDef.label} (${curDef.range})` : 'Selected week',
+      prevLabel: prevDef ? `${prevDef.label} (${prevDef.range})` : null,
+      linked: true
+    };
+  }
+  if(state.mode==='MONTH' && state.monthKey){
+    const monthsHere = [...new Set(rows.map(r=>r.monthKey))].sort();
+    const idx = monthsHere.indexOf(state.monthKey);
+    const prevKey = idx>0 ? monthsHere[idx-1] : null;
+    const curM = MONTHS.find(m=>m.key===state.monthKey);
+    const prevM = prevKey ? MONTHS.find(m=>m.key===prevKey) : null;
+    return {
+      curRows: rows.filter(r=>r.monthKey===state.monthKey),
+      prevRows: prevKey ? rows.filter(r=>r.monthKey===prevKey) : [],
+      curLabel: curM ? curM.label : state.monthKey,
+      prevLabel: prevM ? prevM.label : null,
+      linked: true
+    };
+  }
+  if(state.mode==='RANGE' && state.rangeStart && state.rangeEnd){
+    const s = new Date(state.rangeStart+'T00:00:00');
+    const e = new Date(state.rangeEnd+'T23:59:59');
+    const spanDays = Math.max(1, Math.round((e-s)/86400000)+1);
+    const prevEnd = new Date(s); prevEnd.setDate(prevEnd.getDate()-1); prevEnd.setHours(23,59,59,999);
+    const prevStart = new Date(prevEnd); prevStart.setDate(prevStart.getDate()-(spanDays-1)); prevStart.setHours(0,0,0,0);
+    return {
+      curRows: rows.filter(r=>r.date>=s && r.date<=e),
+      prevRows: rows.filter(r=>r.date>=prevStart && r.date<=prevEnd),
+      curLabel: `${fmtShort(s)} – ${fmtShort(e)}`,
+      prevLabel: `${fmtShort(prevStart)} – ${fmtShort(prevEnd)} (previous ${spanDays}-day period)`,
+      linked: true
+    };
+  }
+  return null; // "All Time" (or an invalid week/month) — caller falls back to its own granularity toggle
+}
+
 function weeksInScope(rows){
   const keys = [...new Set(rows.map(r=>r.weekKey))].sort((a,b)=>a-b);
   return keys.map(k=>WEEKS.find(w=>w.key===k)).filter(Boolean);
@@ -1159,19 +1484,42 @@ function tooltipConfigFromFn(fn){
     backgroundColor:'#1C2A37', titleColor:'#E9EEF2', bodyColor:'#E9EEF2', borderColor:'#263543', borderWidth:1,
     padding:10, displayColors:false, titleFont:{weight:'700',size:12}, bodyFont:{size:11.5} };
 }
-function baseOpts(scaleExtras={}, legend=true, horizontal=false, tooltipFn=null){
+function dlCfg(formatter){
+  // Standard on-chart label config: 'auto' display lets the plugin itself hide any label
+  // that would overlap its neighbours — this is what keeps charts readable as data grows.
+  return { display:'auto', color:'#E9EEF2', font:{size:10,weight:'600'}, formatter,
+    anchor:'end', align:'top', offset:2, clip:true };
+}
+function pieDL(){
+  // Percentage labels on pie/doughnut slices; hides the label on slivers too thin to read.
+  return { display:true, color:'#0F1720', backgroundColor:'rgba(255,255,255,.85)', borderRadius:4, padding:{top:2,bottom:2,left:5,right:5},
+    font:{size:10.5,weight:'700'},
+    formatter:(value, ctx)=>{
+      const arr = ctx.chart.data.datasets[0].data;
+      const total = arr.reduce((a,b)=>a+b,0);
+      if(!total) return '';
+      const pct = value/total*100;
+      return pct < 4 ? '' : pct.toFixed(0)+'%';
+    }
+  };
+}
+function baseOpts(scaleExtras={}, legend=true, horizontal=false, tooltipFn=null, datalabelsFmt=null){
   const tooltip = tooltipFn ? tooltipConfigFromFn(tooltipFn) : { callbacks:{ label: ctx => `${ctx.dataset.label}: ${fmtINR(ctx.parsed.y ?? ctx.parsed.x ?? ctx.parsed)}` } };
   return { responsive:true, maintainAspectRatio:false, indexAxis: horizontal?'y':'x',
+    layout: datalabelsFmt ? { padding:{ top: 18 } } : {},
     interaction:{mode:'index',intersect:false},
-    plugins:{ legend:{display:legend,position:'bottom',labels:{color:'#E9EEF2',font:{size:11},boxWidth:11}}, tooltip },
+    plugins:{ legend:{display:legend,position:'bottom',labels:{color:'#E9EEF2',font:{size:11},boxWidth:11}}, tooltip,
+      datalabels: datalabelsFmt ? dlCfg(datalabelsFmt) : { display:false } },
     scales:{ x: Object.assign({ticks:{color:'#94A6B5',font:{size:10}},grid:{color:'#1C2A37'}}, scaleExtras.x||{}),
              y: Object.assign({ticks:{color:'#94A6B5',font:{size:10.5}},grid:{color:'#1C2A37'}}, scaleExtras.y||{}) } };
 }
-function singleItemOpts(scaleExtras={}, legend=true, horizontal=false, tooltipFn=null){
+function singleItemOpts(scaleExtras={}, legend=true, horizontal=false, tooltipFn=null, datalabelsFmt=null){
   const tooltip = tooltipFn ? tooltipConfigFromFn(tooltipFn) : { callbacks:{ label: ctx => `${ctx.dataset.label}: ${fmtINR(ctx.parsed.y ?? ctx.parsed.x ?? ctx.parsed)}` } };
   return { responsive:true, maintainAspectRatio:false, indexAxis: horizontal?'y':'x',
+    layout: datalabelsFmt ? { padding:{ top: 18 } } : {},
     interaction:{mode:'nearest', intersect:true},
-    plugins:{ legend:{display:legend,position:'bottom',labels:{color:'#E9EEF2',font:{size:11},boxWidth:11}}, tooltip },
+    plugins:{ legend:{display:legend,position:'bottom',labels:{color:'#E9EEF2',font:{size:11},boxWidth:11}}, tooltip,
+      datalabels: datalabelsFmt ? dlCfg(datalabelsFmt) : { display:false } },
     scales:{ x: Object.assign({ticks:{color:'#94A6B5',font:{size:10}},grid:{color:'#1C2A37'}}, scaleExtras.x||{}),
              y: Object.assign({ticks:{color:'#94A6B5',font:{size:10.5}},grid:{color:'#1C2A37'}}, scaleExtras.y||{}) } };
 }
@@ -1206,7 +1554,7 @@ function renderTrend(type){
       backgroundColor: isBar? mi.color : mi.colorSoft, fill:fillArea, tension:.3, borderWidth:2, borderRadius:isBar?4:0}]},
     options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,minRotation:0,autoSkip:true,maxTicksLimit:24}}}, false, false, (evts)=>{
       const idx=evts[0].dataIndex; return richTooltip(items[idx].agg, labels[idx]);
-    })
+    }, fmtINR)
   });
 }
 function renderWow(type){
@@ -1229,7 +1577,7 @@ function renderWow(type){
       borderColor:mi.color, borderWidth:2, tension:.35, fill:false, borderRadius:4}]},
     options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}}, false, false, (items)=>{
       const idx=items[0].dataIndex; return richTooltip(aggs[idx], labels[idx]);
-    })
+    }, fmtINR)
   });
 }
 function renderSplit(type){
@@ -1246,6 +1594,7 @@ function renderSplit(type){
     const nbdRec = aggregateRows(rows.filter(r=>r.ordertype==='NBD'));
     charts.split = new Chart(ctx, {type:'pie', data:{labels:['CRR','NBD'], datasets:[{data:[crrRec[mi.key],nbdRec[mi.key]], backgroundColor:['#2DD4BF','#8B7FE8'], borderColor:'#16212C', borderWidth:2}]},
       options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:11.5}}},
+        datalabels: pieDL(),
         tooltip: tooltipConfigFromFn((items)=>{ const rec = items[0].label==='CRR'?crrRec:nbdRec; return richTooltip(rec, items[0].label); })}}});
     return;
   }
@@ -1260,7 +1609,7 @@ function renderSplit(type){
     options: singleItemOpts({x:{stacked}, y:{stacked,ticks:{callback:v=>fmtINR(v)}}}, true, false, (items)=>{
       const it = items[0]; const rec = it.dataset.meta[it.dataIndex];
       return [`${it.dataset.label} — ${labels[it.dataIndex]}`, ...richTooltip(rec)];
-    })
+    }, fmtINR)
   });
 }
 function renderSp(type){
@@ -1301,7 +1650,7 @@ function renderSp(type){
       const it = items[0];
       const rec = it.dataset.meta[it.dataIndex];
       return [`${it.dataset.label} — ${top8[it.dataIndex]}`, ...richTooltip(rec)];
-    })
+    }, fmtINR)
   });
 }
 function renderTable(){
@@ -1329,6 +1678,7 @@ function renderAll(){
   renderMonthBanner();
   renderWeekStrip();
   renderKPIs();
+  renderMisReport();
   renderGrowthTable();
   renderTrend(chartTypes.trend);
   renderWow(chartTypes.wow);
@@ -1336,6 +1686,91 @@ function renderAll(){
   renderSp(chartTypes.sp);
   renderTable();
   renderBI();
+  renderMisScoring();
+}
+
+/* ---------------------- MIS Sales Report (professional report card) ----------------------
+   Always compares the current period against the immediately preceding one of the same
+   granularity, independent of the main dashboard's Week/Month/Range filter — like a real
+   MIS report, it shows "the latest period vs the one before it", not whatever slice of
+   history the rest of the dashboard happens to be filtered to. Salesperson/Order-type
+   filters still apply, since those are global. */
+function misGrowthCell(pct){
+  if(pct===null||pct===undefined) return `<span class="mis-growth-cell flat">— new</span>`;
+  if(Math.abs(pct)<0.05) return `<span class="mis-growth-cell flat">0.0%</span>`;
+  return pct>0
+    ? `<span class="mis-growth-cell up">▲ ${pct.toFixed(1)}%</span>`
+    : `<span class="mis-growth-cell down">▼ ${Math.abs(pct).toFixed(1)}%</span>`;
+}
+
+function renderMisReport(){
+  const rows = baseFiltered(ALL_ROWS);
+  const linked = getCurrentAndPreviousPeriod(rows);
+  let curRows, prevRows, curLabelText, prevLabelText;
+
+  if(linked){
+    curRows = linked.curRows; prevRows = linked.prevRows;
+    curLabelText = linked.curLabel; prevLabelText = linked.prevLabel;
+    document.getElementById('misLinkNote').textContent = 'Following the "Select Week / Month / Range" filter above.';
+  } else {
+    const buckets = buildPeriodBuckets(rows, state.misGran || 'month');
+    const n = buckets.defs.length;
+    if(!n){
+      document.getElementById('misPeriodLabel').textContent = 'no data';
+      document.getElementById('misCompareLabel').textContent = '';
+      document.getElementById('misLinkNote').textContent = '';
+      document.getElementById('misTableBody').innerHTML = `<tr><td colspan="11" style="color:#6b7280;text-align:center;padding:20px">No data available yet.</td></tr>`;
+      return;
+    }
+    const curDef = buckets.defs[n-1];
+    const prevDef = n>1 ? buckets.defs[n-2] : null;
+    curRows = rows.filter(curDef.match);
+    prevRows = prevDef ? rows.filter(prevDef.match) : [];
+    curLabelText = curDef.label + (curDef.range ? ` (${curDef.range})` : '');
+    prevLabelText = prevDef ? prevDef.label + (prevDef.range?` (${prevDef.range})`:'') : null;
+    document.getElementById('misLinkNote').textContent = 'View is "All Time" — using the Daily/Weekly/Monthly/Yearly buttons below (auto-showing the latest period). Pick a specific Week, Month or Range above to lock this report to it.';
+  }
+
+  document.getElementById('misPeriodLabel').textContent = curLabelText;
+  document.getElementById('misCompareLabel').textContent = prevLabelText ? `vs ${prevLabelText}` : 'no previous period yet to compare';
+
+  const spNames = [...new Set(curRows.map(r=>r.salesperson))];
+  const spData = spNames.map(sp=>{
+    const spCur = curRows.filter(r=>r.salesperson===sp);
+    const crr = aggregateRows(spCur.filter(r=>r.ordertype==='CRR'));
+    const nbd = aggregateRows(spCur.filter(r=>r.ordertype==='NBD'));
+    const total = aggregateRows(spCur);
+    const prevNet = aggregateRows(prevRows.filter(r=>r.salesperson===sp)).net;
+    const growth = prevNet ? ((total.net-prevNet)/prevNet*100) : (total.net>0 ? null : 0);
+    return { sp, crr, nbd, total, growth };
+  }).sort((a,b)=>b.total.net-a.total.net);
+
+  const maxNet = spData.length ? spData[0].total.net : 1;
+
+  const rowsHtml = spData.map((r,i)=>`
+    <tr>
+      <td class="mis-name">${r.sp}</td>
+      <td>${fmtNum(r.crr.invoices)}</td><td>${fmtINR(r.crr.net)}</td><td>${fmtINR(r.crr.profit)}</td>
+      <td>${fmtNum(r.nbd.invoices)}</td><td>${fmtINR(r.nbd.net)}</td><td>${fmtINR(r.nbd.profit)}</td>
+      <td>${fmtNum(r.total.invoices)}</td><td>${fmtINR(r.total.net)}</td><td>${fmtINR(r.total.profit)}</td>
+      <td>${misGrowthCell(r.growth)}</td>
+      <td><div class="mis-rank-cell"><div class="mis-rank-bar" style="width:${Math.max(6, r.total.net/maxNet*60)}px"></div>${i+1}</div></td>
+    </tr>`).join('');
+
+  const grand = aggregateRows(curRows);
+  const grandCrr = aggregateRows(curRows.filter(r=>r.ordertype==='CRR'));
+  const grandNbd = aggregateRows(curRows.filter(r=>r.ordertype==='NBD'));
+  const grandPrevNet = aggregateRows(prevRows).net;
+  const grandGrowth = grandPrevNet ? ((grand.net-grandPrevNet)/grandPrevNet*100) : null;
+  const grandHtml = `<tr class="mis-grand">
+      <td class="mis-name">GRAND TOTAL</td>
+      <td>${fmtNum(grandCrr.invoices)}</td><td>${fmtINR(grandCrr.net)}</td><td>${fmtINR(grandCrr.profit)}</td>
+      <td>${fmtNum(grandNbd.invoices)}</td><td>${fmtINR(grandNbd.net)}</td><td>${fmtINR(grandNbd.profit)}</td>
+      <td>${fmtNum(grand.invoices)}</td><td>${fmtINR(grand.net)}</td><td>${fmtINR(grand.profit)}</td>
+      <td>${misGrowthCell(grandGrowth)}</td><td></td>
+    </tr>`;
+
+  document.getElementById('misTableBody').innerHTML = (rowsHtml || `<tr><td colspan="11" style="color:#6b7280;text-align:center;padding:20px">No salespeople in this period.</td></tr>`) + grandHtml;
 }
 
 /* ---------------------- BI Insights tab ---------------------- */
@@ -1378,7 +1813,7 @@ function renderBI(){
     options: singleItemOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, true, false, (evts)=>{
       const it = evts[0]; const idx = it.dataIndex; const a = items[idx].agg;
       return [periodLabels[idx], `Net Sales: ${fmtINR(a.net)}`, `Tax: ${fmtINR(a.gross-a.net)}`, `Profit: ${fmtINR(a.profit)}`, `Invoices: ${fmtNum(a.invoices)}`];
-    })
+    }, fmtINR)
   });
 
   /* 2. Invoice count trend — same buckets, count-formatted tooltip (no ₹ — these are counts, not money) */
@@ -1389,7 +1824,7 @@ function renderBI(){
     options: baseOpts({y:{ticks:{precision:0}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, false, false, (evts)=>{
       const idx = evts[0].dataIndex;
       return [periodLabels[idx], `Invoices: ${fmtNum(items[idx].agg.invoices)}`];
-    })
+    }, fmtNum)
   });
 
   /* 3. Profit contribution pie by salesperson — snapshot of the current filter, not history */
@@ -1399,6 +1834,7 @@ function renderBI(){
     type:'doughnut',
     data:{ labels: spByProfit.map(s=>s.salesperson), datasets:[{data:spByProfit.map(s=>s.profit), backgroundColor:spByProfit.map((_,i)=>PALETTE[i%PALETTE.length]), borderColor:'#16212C', borderWidth:2}] },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:10.5},boxWidth:10}},
+      datalabels: pieDL(),
       tooltip: tooltipConfigFromFn((evts)=>{ const s = spByProfit[evts[0].dataIndex]; return [s.salesperson, `Profit: ${fmtINR(s.profit)}`, `Net Sales: ${fmtINR(s.net)}`, `Invoices: ${fmtNum(s.invoices)}`]; }) } }
   });
 
@@ -1417,6 +1853,7 @@ function renderBI(){
   charts.biRepeatPie = new Chart(document.getElementById('biRepeatPie'), {
     type:'pie', data:{ labels:[`Repeat · CRR (${fmtNum(repeatCustCount)} customers)`, `New/One-time · NBD (${fmtNum(oneTimeCustCount)} customers)`], datasets:[{data:[repeatNet, onceNet], backgroundColor:['#2DD4BF','#8B7FE8'], borderColor:'#16212C', borderWidth:2}] },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{color:'#E9EEF2',font:{size:11}}},
+      datalabels: pieDL(),
       tooltip: tooltipConfigFromFn((evts)=>{ const lbl=evts[0].label; const val=evts[0].label.startsWith('Repeat')?repeatNet:onceNet; return [lbl, `Net Sales: ${fmtINR(val)}`]; }) } }
   });
 
@@ -1444,7 +1881,7 @@ function renderBI(){
     options: baseOpts({y:{ticks:{precision:0}}}, false, false, (evts)=>{
       const idx = evts[0].dataIndex;
       return [bands[idx].label + ' margin', `Invoices: ${fmtNum(bandCounts[idx])}`];
-    })
+    }, fmtNum)
   });
 
   /* 8. Zero / low-profit orders flag list — worst offenders in current filter only, capped at 10 by design */
@@ -1465,7 +1902,7 @@ function renderBI(){
     options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}}, false, false, (evts)=>{
       const s = effList[evts[0].dataIndex];
       return [s.salesperson, `Avg. profit/order: ${fmtINR(s.avgProfit)}`, `Total profit: ${fmtINR(s.profit)}`, `Invoices: ${fmtNum(s.invoices)}`];
-    })
+    }, fmtINR)
   });
 
   /* 10. Tax collected — same buckets as everything else */
@@ -1473,7 +1910,7 @@ function renderBI(){
   document.getElementById('biTaxDesc').textContent = `Total tax in this filter: ${fmtINR(totalTax)} (${fmtPct(taxRatio)} of billed value) — ${buckets.granularity.toLowerCase()} view`;
   charts.biTaxTrend = new Chart(document.getElementById('biTaxTrend'), {
     type:'line', data:{ labels:periodLabels, datasets:[{label:'Tax', data:items.map(it=>it.agg.gross-it.agg.net), borderColor:'#F0725A', backgroundColor:'rgba(240,114,90,.18)', fill:true, tension:.3, borderWidth:2}] },
-    options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, false)
+    options: baseOpts({y:{ticks:{callback:v=>fmtINR(v)}}, x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:20}}}, false, false, null, fmtINR)
   });
 
   /* 11. Unusually large invoices — audit-style flag list (replaces the old MIDAP panel) */
@@ -1490,6 +1927,241 @@ function renderBI(){
     : `<div class="empty-note">No unusually large invoices flagged in this filter.</div>`;
 }
 
+/* ---------------------- MIS Scoring (Plan vs Actual, department-wise) ----------------------
+   Always uses the FULL dataset (not the salesperson/order-type toggles above) because a
+   scorecard needs to see a person's NBD-side and CRR-side numbers side by side regardless
+   of what the rest of the dashboard is filtered to. Only its own period toggle applies.
+   Conversion Ratio is intentionally left out — there's no leads/enquiries data in the sheet
+   to compute a real "actual" for it. Overall Score is our own design: the plain average of
+   the three category scores (Avg Sale, Revenue, Profit). */
+function scoreVal(actual, plan){
+  if(!plan) return null;
+  return Math.round((actual/plan*100-100)*100)/100;
+}
+function scoreSpanNum(val){
+  if(val===null||val===undefined||isNaN(val)) return `<span style="color:#9ca3af">—</span>`;
+  const color = val>=0 ? '#15803d' : '#b91c1c';
+  return `<span style="color:${color};font-weight:700">${val>0?'+':''}${val.toFixed(2)}</span>`;
+}
+function fmtRatio(v){
+  if(v===null||v===undefined||!isFinite(v)) return '—';
+  return v.toFixed(6);
+}
+function growthChip(pct){
+  if(pct===null||pct===undefined) return `<span style="color:#9ca3af">— new</span>`;
+  if(Math.abs(pct)<0.05) return `<span style="color:#6b7280;font-weight:700">0.0%</span>`;
+  return pct>0
+    ? `<span style="color:#15803d;font-weight:700">▲ ${pct.toFixed(1)}%</span>`
+    : `<span style="color:#b91c1c;font-weight:700">▼ ${Math.abs(pct).toFixed(1)}%</span>`;
+}
+
+function computeScoreRow(sp, spRows, prevSpRows, revMultiplier, periodDivisor){
+  const custNames = [...new Set(spRows.map(r=>r.customer))];
+  const uniqCustomers = custNames.length;
+  const netTotal = spRows.reduce((s,r)=>s+r.net,0);
+  const profitTotal = spRows.reduce((s,r)=>s+r.profit,0);
+
+  const salary = ADMIN.salaries[sp] || 0;
+  const profitPlan = (salary*revMultiplier)/periodDivisor; // e.g. NBD monthly: ×10÷1, NBD weekly: ×10÷4
+  const profitActual = profitTotal;
+  const profitScore = profitPlan ? scoreVal(profitActual, profitPlan) : null;
+
+  // Revenue Plan = Profit PLAN × multiplier (not actual profit) — Amount Without Tax throughout
+  const revenuePlan = profitPlan * revMultiplier;
+  const revenueActual = netTotal;
+  const revenueScore = revenuePlan ? scoreVal(revenueActual, revenuePlan) : null;
+
+  // Avg Rs Sale — exactly as specified: Revenue ÷ Unique Customers (Plan uses Plan-Revenue,
+  // Actual uses Actual-Revenue). Both sides are without-GST throughout.
+  const avgPlan = uniqCustomers ? revenuePlan/uniqCustomers : null;
+  const avgActual = uniqCustomers ? revenueActual/uniqCustomers : null;
+  const avgScore = (avgPlan && avgActual!=null) ? scoreVal(avgActual, avgPlan) : null;
+
+  const loss = profitActual - profitPlan;
+  const scores = [avgScore, revenueScore, profitScore].filter(v=>v!==null);
+  const overall = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : null;
+
+  const prevRevenue = prevSpRows.reduce((s,r)=>s+r.net,0);
+  const growth = prevRevenue ? ((revenueActual-prevRevenue)/prevRevenue*100) : (revenueActual>0 ? null : 0);
+
+  return { sp, spRows, uniqCustomers, avgPlan, avgActual, avgScore, revenuePlan, revenueActual, revenueScore, profitPlan, profitActual, profitScore, salary, loss, overall, growth };
+}
+let custPopupStore = [];
+function uniqCustCell(rowsArr){
+  const count = new Set(rowsArr.map(r=>r.customer)).size;
+  if(!count) return fmtNum(0);
+  const idx = custPopupStore.push(rowsArr) - 1;
+  return `<button type="button" class="uniq-tip-btn" onclick="showCustomerPopup(${idx})">${fmtNum(count)}</button>`;
+}
+function showCustomerPopup(idx){
+  const rowsArr = custPopupStore[idx];
+  if(!rowsArr) return;
+  const byCust = {};
+  rowsArr.forEach(r=>{
+    byCust[r.customer] = byCust[r.customer] || { name:r.customer, net:0, profit:0 };
+    byCust[r.customer].net += r.net;
+    byCust[r.customer].profit += r.profit;
+  });
+  const list = Object.values(byCust)
+    .map(c=>({ ...c, margin: c.net ? c.profit/c.net*100 : 0 }))
+    .sort((a,b)=>b.net-a.net);
+  document.getElementById('custPopupTitle').textContent = `${fmtNum(list.length)} customer${list.length===1?'':'s'} — ranked by sales`;
+  document.getElementById('custPopupBody').innerHTML = list.length ? list.map(c=>`
+    <tr>
+      <td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.06);color:var(--ink);white-space:normal;word-break:break-word;line-height:1.35">${c.name}</td>
+      <td style="padding:7px 8px;text-align:right;border-bottom:1px solid rgba(255,255,255,.06);color:var(--ink);white-space:nowrap">${fmtINR(c.net)}</td>
+      <td style="padding:7px 8px;text-align:right;border-bottom:1px solid rgba(255,255,255,.06);color:var(--ink);white-space:nowrap">${fmtINR(c.profit)}</td>
+      <td style="padding:7px 8px;text-align:right;border-bottom:1px solid rgba(255,255,255,.06);color:${c.margin>=0?'#4ADE80':'#F0725A'};white-space:nowrap">${fmtPct(c.margin)}</td>
+    </tr>`).join('') : `<tr><td colspan="4" style="padding:18px;text-align:center;color:var(--ink-dim)">No customers in this period.</td></tr>`;
+  document.getElementById('custPopupOverlay').style.display = 'flex';
+}
+document.getElementById('custPopupClose').addEventListener('click', ()=>{ document.getElementById('custPopupOverlay').style.display='none'; });
+document.getElementById('custPopupOverlay').addEventListener('click', e=>{ if(e.target.id==='custPopupOverlay') e.target.style.display='none'; });
+
+function scoreRowHtml(r){
+  return `<tr>
+    <td class="mis-name">${r.sp}${!r.salary?' <span style="color:#b91c1c;font-size:10px">(no salary set)</span>':''}</td>
+    <td>${uniqCustCell(r.spRows)}</td>
+    <td>${fmtINR(r.avgPlan)}</td><td>${fmtINR(r.avgActual)}</td><td>${scoreSpanNum(r.avgScore)}</td>
+    <td>${fmtINR(r.revenuePlan)}</td><td>${fmtINR(r.revenueActual)}</td><td>${scoreSpanNum(r.revenueScore)}</td>
+    <td>${fmtINR(r.profitPlan)}</td><td>${fmtINR(r.profitActual)}</td><td>${scoreSpanNum(r.profitScore)}</td>
+    <td>${growthChip(r.growth)}</td>
+    <td>${fmtINR(r.loss)}</td><td>${scoreSpanNum(r.overall)}</td>
+  </tr>`;
+}
+
+function topVisibleSalesperson(rowsArr){
+  const bySp = {};
+  rowsArr.forEach(r=>{ bySp[r.salesperson] = (bySp[r.salesperson]||0) + r.net; });
+  const sorted = Object.entries(bySp).sort((a,b)=>b[1]-a[1]);
+  const visible = sorted.find(([name])=> !ADMIN.hiddenFromMis[name]);
+  return visible ? { name: visible[0], net: visible[1] } : (sorted.length ? { name:'(hidden)', net: sorted[0][1] } : null);
+}
+
+function renderMisScoring(){
+  custPopupStore = [];
+  const linked = getCurrentAndPreviousPeriod(ALL_ROWS);
+  let curRows, prevRows, curLabelText, linkNote, periodDivisor;
+  if(linked){
+    curRows = linked.curRows; prevRows = linked.prevRows; curLabelText = linked.curLabel;
+    linkNote = 'Following the "Select Week / Month / Range" filter above.';
+    if(state.mode==='WEEK') periodDivisor = 4;         // 1 week = 1/4 of the monthly target
+    else if(state.mode==='MONTH') periodDivisor = 1;   // 1 month = the full monthly target, no division
+    else if(state.mode==='RANGE' && state.rangeStart && state.rangeEnd){
+      const s = new Date(state.rangeStart+'T00:00:00'), e = new Date(state.rangeEnd+'T23:59:59');
+      const days = Math.max(1, Math.round((e-s)/86400000)+1);
+      periodDivisor = 28/days;  // scaled against a 4-week (28-day) month, same convention as Weekly
+    } else periodDivisor = 4;
+  } else {
+    const buckets = buildPeriodBuckets(ALL_ROWS, state.scoreGran || 'week');
+    const n = buckets.defs.length;
+    if(!n){ document.getElementById('scorePeriodLabel').textContent = 'no data'; return; }
+    const curDef = buckets.defs[n-1];
+    const prevDef = n>1 ? buckets.defs[n-2] : null;
+    curRows = ALL_ROWS.filter(curDef.match);
+    prevRows = prevDef ? ALL_ROWS.filter(prevDef.match) : [];
+    curLabelText = curDef.label + (curDef.range?` (${curDef.range})`:'');
+    linkNote = 'View is "All Time" — using the Daily/Weekly/Monthly/Yearly buttons (auto-showing the latest period). Pick a specific Week, Month or Range above to lock this to it.';
+    periodDivisor = buckets.granularity==='Daily' ? 28
+                   : buckets.granularity==='Weekly' ? 4
+                   : buckets.granularity==='Monthly' ? 1
+                   : 1/12; // Yearly — a full year is 12x the monthly target
+  }
+  document.getElementById('scorePeriodLabel').textContent = curLabelText;
+  document.getElementById('scoreLinkNote').textContent = linkNote + ` Profit Plan divisor for this period: ÷${periodDivisor.toFixed(2)} (1 = a full month's target, 4 = one week of it).`;
+  const divisorText = periodDivisor.toFixed(periodDivisor % 1 === 0 ? 0 : 2);
+  document.getElementById('nbdProfitHead').textContent = `Profit (Salary×10 ÷ ${divisorText})`;
+  document.getElementById('crrProfitHead').textContent = `Profit (Salary×20 ÷ ${divisorText})`;
+
+  const nbdNames = Object.keys(ADMIN.departments).filter(sp=>ADMIN.departments[sp]==='NBD');
+  const crrNames = Object.keys(ADMIN.departments).filter(sp=>ADMIN.departments[sp]==='CRR');
+  const nbdNamesVisible = nbdNames.filter(sp=>!ADMIN.hiddenFromMis[sp]);
+  const crrNamesVisible = crrNames.filter(sp=>!ADMIN.hiddenFromMis[sp]);
+
+  const noteBox = document.getElementById('deptNoteBox');
+  if(!nbdNames.length && !crrNames.length){
+    noteBox.innerHTML = `<div class="dept-note">No one has been assigned to an NBD or CRR department yet. Open <b>Admin → Salesperson salary &amp; department</b> and assign each salesperson, plus their salary, to see scores here.</div>`;
+  } else {
+    const missingSalary = [...nbdNames, ...crrNames].filter(sp=>!ADMIN.salaries[sp]);
+    noteBox.innerHTML = missingSalary.length
+      ? `<div class="dept-note">Missing salary for: ${missingSalary.join(', ')} — their Profit Plan/Score can't be computed until you add it in Admin settings.</div>`
+      : '';
+  }
+
+  // ---- Overall Report strip (CRR / NBD / TOTAL) — always counts EVERYONE's numbers,
+  // hidden salespeople just don't get named individually anywhere in this tab.
+  const nbdAllCur  = curRows.filter(r=>r.ordertype==='NBD' && nbdNames.includes(r.salesperson));
+  const crrAllCur  = curRows.filter(r=>r.ordertype==='CRR' && crrNames.includes(r.salesperson));
+  const nbdAllPrev = prevRows.filter(r=>r.ordertype==='NBD' && nbdNames.includes(r.salesperson));
+  const crrAllPrev = prevRows.filter(r=>r.ordertype==='CRR' && crrNames.includes(r.salesperson));
+  const totalAllCur  = [...nbdAllCur, ...crrAllCur];
+  const totalAllPrev = [...nbdAllPrev, ...crrAllPrev];
+
+  function overallCard(label, curArr, prevArr, color){
+    const agg = aggregateRows(curArr);
+    const prevNet = aggregateRows(prevArr).net;
+    const growth = prevNet ? ((agg.net-prevNet)/prevNet*100) : (agg.net>0 ? null : 0);
+    const top = topVisibleSalesperson(curArr);
+    return `<div class="kpi-mini" style="border-left:3px solid ${color}">
+      <div class="lbl">${label} — Total Sales (w/o GST)</div><div class="val">${fmtINR(agg.net)}</div>
+      <div class="sub" style="font-size:10.5px;color:var(--ink-dim);margin-top:6px">Profit: ${fmtINR(agg.profit)}</div>
+      <div class="sub" style="font-size:10.5px;color:var(--ink-dim)">Top: ${top ? top.name : '—'}</div>
+      <div class="sub" style="margin-top:4px">${growthChip(growth)} vs previous period</div>
+    </div>`;
+  }
+  document.getElementById('scoreOverallStrip').innerHTML =
+    overallCard('CRR Team', crrAllCur, crrAllPrev, '#4a7ab5') +
+    overallCard('NBD Team', nbdAllCur, nbdAllPrev, '#5c7a3d') +
+    overallCard('TOTAL', totalAllCur, totalAllPrev, '#5b3f8c');
+
+  // ---- Per-salesperson scorecards (hidden salespeople excluded from the row list only)
+  const nbdRows = nbdNamesVisible.map(sp=>computeScoreRow(sp,
+    curRows.filter(r=>r.salesperson===sp && r.ordertype==='NBD'),
+    prevRows.filter(r=>r.salesperson===sp && r.ordertype==='NBD'), 10, periodDivisor));
+  const crrRows = crrNamesVisible.map(sp=>computeScoreRow(sp,
+    curRows.filter(r=>r.salesperson===sp && r.ordertype==='CRR'),
+    prevRows.filter(r=>r.salesperson===sp && r.ordertype==='CRR'), 20, periodDivisor));
+
+  document.getElementById('nbdScoreBody').innerHTML = nbdRows.length
+    ? nbdRows.map(scoreRowHtml).join('')
+    : `<tr><td colspan="14" style="text-align:center;color:#6b7280;padding:16px">No one assigned to NBD department yet (or all are hidden).</td></tr>`;
+  document.getElementById('crrScoreBody').innerHTML = crrRows.length
+    ? crrRows.map(scoreRowHtml).join('')
+    : `<tr><td colspan="14" style="text-align:center;color:#6b7280;padding:16px">No one assigned to CRR department yet (or all are hidden).</td></tr>`;
+
+  function crossRowHtml(sp, curOrderRows, prevOrderRows){
+    const net = curOrderRows.reduce((s,r)=>s+r.net,0);
+    const profit = curOrderRows.reduce((s,r)=>s+r.profit,0);
+    const margin = net ? (profit/net*100) : null;
+    const prevNet = prevOrderRows.reduce((s,r)=>s+r.net,0);
+    const prevProfit = prevOrderRows.reduce((s,r)=>s+r.profit,0);
+    const prevMargin = prevNet ? (prevProfit/prevNet*100) : null;
+    const marginGrowth = (margin!==null && prevMargin) ? ((margin-prevMargin)/Math.abs(prevMargin)*100) : null;
+    return `<tr>
+      <td>${sp}</td>
+      <td>${uniqCustCell(curOrderRows)}</td>
+      <td>${fmtNum(curOrderRows.length)}</td>
+      <td>${fmtINR(net)}</td>
+      <td>${fmtINR(profit)}</td>
+      <td>${margin===null?'—':fmtPct(margin)}</td>
+      <td>${growthChip(marginGrowth)}</td>
+    </tr>`;
+  }
+
+  document.getElementById('nbdCrossBody').innerHTML = nbdNamesVisible.length
+    ? nbdNamesVisible.map(sp=>crossRowHtml(sp,
+        curRows.filter(r=>r.salesperson===sp && r.ordertype==='CRR'),
+        prevRows.filter(r=>r.salesperson===sp && r.ordertype==='CRR')
+      )).join('')
+    : `<tr><td colspan="7" style="text-align:center;color:#6b7280;padding:12px">—</td></tr>`;
+  document.getElementById('crrCrossBody').innerHTML = crrNamesVisible.length
+    ? crrNamesVisible.map(sp=>crossRowHtml(sp,
+        curRows.filter(r=>r.salesperson===sp && r.ordertype==='NBD'),
+        prevRows.filter(r=>r.salesperson===sp && r.ordertype==='NBD')
+      )).join('')
+    : `<tr><td colspan="7" style="text-align:center;color:#6b7280;padding:12px">—</td></tr>`;
+}
+
 /* ---------------------- UI wiring ---------------------- */
 document.querySelectorAll('.tabnav button').forEach(btn=>{
   btn.addEventListener('click', ()=>{
@@ -1497,6 +2169,7 @@ document.querySelectorAll('.tabnav button').forEach(btn=>{
     btn.classList.add('active');
     document.getElementById('mainTab').style.display = btn.dataset.tab==='main' ? 'block':'none';
     document.getElementById('biTab').style.display = btn.dataset.tab==='bi' ? 'block':'none';
+    document.getElementById('scoringTab').style.display = btn.dataset.tab==='scoring' ? 'block':'none';
   });
 });
 
@@ -1540,6 +2213,8 @@ document.querySelectorAll('.chart-toggle').forEach(group=>{
       btn.classList.add('active');
       if(target==='trendGran'){ state.trendGran = btn.dataset.type; renderTrend(chartTypes.trend); return; }
       if(target==='growthGran'){ state.growthGran = btn.dataset.type; renderGrowthTable(); return; }
+      if(target==='misGran'){ state.misGran = btn.dataset.type; renderMisReport(); return; }
+      if(target==='scoreGran'){ state.scoreGran = btn.dataset.type; renderMisScoring(); return; }
       chartTypes[target] = btn.dataset.type;
       if(target==='trend') renderTrend(chartTypes.trend);
       if(target==='wow') renderWow(chartTypes.wow);
@@ -1582,6 +2257,8 @@ function applyStateToUI(){
   });
   document.querySelectorAll('.chart-toggle[data-target="trendGran"] button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.trendGran));
   document.querySelectorAll('.chart-toggle[data-target="growthGran"] button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.growthGran));
+  document.querySelectorAll('.chart-toggle[data-target="misGran"] button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.misGran));
+  document.querySelectorAll('.chart-toggle[data-target="scoreGran"] button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.scoreGran));
 }
 
 function loadSavedView(){
@@ -1599,14 +2276,14 @@ function saveView(){
     localStorage.setItem(SAVED_VIEW_KEY, JSON.stringify({ state, chartTypes }));
     const btn = document.getElementById('saveViewBtn');
     const original = btn.textContent;
-    btn.textContent = '✓ Saved!'; btn.classList.add('saved');
+    btn.textContent = 'Saved'; btn.classList.add('saved');
     setTimeout(()=>{ btn.textContent = original; btn.classList.remove('saved'); }, 1500);
   } catch(e){ alert('Could not save — your browser may be blocking local storage for this file.'); }
 }
 
 function resetView(){
   localStorage.removeItem(SAVED_VIEW_KEY);
-  state = { metric:'net', ordertype:'ALL', salesperson:'ALL', mode:'ALL', weekKey:null, monthKey:null, rangeStart:null, rangeEnd:null, trendGran:'auto', growthGran:'week' };
+  state = { metric:'net', ordertype:'ALL', salesperson:'ALL', mode:'ALL', weekKey:null, monthKey:null, rangeStart:null, rangeEnd:null, trendGran:'auto', growthGran:'week', misGran:'month', scoreGran:'week' };
   chartTypes = { trend:'bar', split:'stacked', sp:'stacked', wow:'bar' };
   populateFilterOptions();
   applyStateToUI();
@@ -1678,6 +2355,44 @@ function fillAdminForm(){
   document.getElementById('admTopSp').value = ADMIN.topSalespersonN;
   document.getElementById('admOutlierSD').value = ADMIN.outlierSD;
   document.getElementById('admLowProfit').value = ADMIN.lowProfitPct;
+
+  document.getElementById('admPanelList').innerHTML = PANEL_REGISTRY.map(p=>{
+    const checked = ADMIN.visiblePanels[p.key] === false ? '' : 'checked';
+    return `<label class="admin-check-row"><input type="checkbox" data-panel-key="${p.key}" ${checked}> ${p.label}</label>`;
+  }).join('');
+
+  const spNames = [...new Set(ALL_ROWS.map(r=>r.salesperson))].sort();
+  const spListEl = document.getElementById('admSalespersonList');
+  if(!spNames.length){
+    spListEl.innerHTML = `<span class="hint">Load the sheet first — salespeople will appear here automatically.</span>`;
+  } else {
+    spListEl.innerHTML = spNames.map(sp=>{
+      const dept = ADMIN.departments[sp] || '';
+      const salary = ADMIN.salaries[sp] || '';
+      const crTarget = ADMIN.crTargets && ADMIN.crTargets[sp] || '';
+      const hidden = ADMIN.hiddenFromMis && ADMIN.hiddenFromMis[sp];
+      return `<div class="admin-sp-row" style="grid-template-columns:1fr 90px 90px 80px 70px">
+        <span class="sp-name" title="${sp}">${sp}</span>
+        <select data-sp-dept="${sp}">
+          <option value="" ${dept===''?'selected':''}>— dept —</option>
+          <option value="NBD" ${dept==='NBD'?'selected':''}>NBD</option>
+          <option value="CRR" ${dept==='CRR'?'selected':''}>CRR</option>
+        </select>
+        <input type="number" data-sp-salary="${sp}" placeholder="Salary ₹" value="${salary}">
+        <input type="number" data-sp-crtarget="${sp}" placeholder="CR target %" value="${crTarget}">
+        <label style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink-dim);white-space:nowrap">
+          <input type="checkbox" data-sp-hide="${sp}" ${hidden?'checked':''}> Hide in MIS
+        </label>
+      </div>`;
+    }).join('');
+  }
+}
+
+function applyPanelVisibility(){
+  PANEL_REGISTRY.forEach(p=>{
+    const el = document.getElementById(p.key);
+    if(el) el.style.display = (ADMIN.visiblePanels[p.key] === false) ? 'none' : '';
+  });
 }
 
 function tryAdminLogin(){
@@ -1698,6 +2413,26 @@ document.getElementById('adminPassSubmit').addEventListener('click', tryAdminLog
 document.getElementById('adminPassInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryAdminLogin(); });
 
 document.getElementById('adminSaveBtn').addEventListener('click', ()=>{
+  const visiblePanels = {};
+  document.querySelectorAll('#admPanelList input[type="checkbox"]').forEach(cb=>{
+    if(!cb.checked) visiblePanels[cb.dataset.panelKey] = false;
+  });
+  const salaries = {}, departments = {}, crTargets = {}, hiddenFromMis = {};
+  document.querySelectorAll('#admSalespersonList [data-sp-salary]').forEach(inp=>{
+    const v = +inp.value;
+    if(v > 0) salaries[inp.dataset.spSalary] = v;
+  });
+  document.querySelectorAll('#admSalespersonList [data-sp-dept]').forEach(sel=>{
+    if(sel.value) departments[sel.dataset.spDept] = sel.value;
+  });
+  document.querySelectorAll('#admSalespersonList [data-sp-crtarget]').forEach(inp=>{
+    const v = +inp.value;
+    if(v > 0) crTargets[inp.dataset.spCrtarget] = v;
+  });
+  document.querySelectorAll('#admSalespersonList [data-sp-hide]').forEach(cb=>{
+    if(cb.checked) hiddenFromMis[cb.dataset.spHide] = true;
+  });
+
   const updated = {
     sheetId: document.getElementById('admSheetId').value.trim() || DEFAULT_ADMIN_SETTINGS.sheetId,
     gid: document.getElementById('admGid').value.trim() || DEFAULT_ADMIN_SETTINGS.gid,
@@ -1708,7 +2443,8 @@ document.getElementById('adminSaveBtn').addEventListener('click', ()=>{
     topCustomersN: Math.max(1, +document.getElementById('admTopCust').value || DEFAULT_ADMIN_SETTINGS.topCustomersN),
     topSalespersonN: Math.max(1, +document.getElementById('admTopSp').value || DEFAULT_ADMIN_SETTINGS.topSalespersonN),
     outlierSD: Math.max(0.5, +document.getElementById('admOutlierSD').value || DEFAULT_ADMIN_SETTINGS.outlierSD),
-    lowProfitPct: Math.max(0, +document.getElementById('admLowProfit').value || 0)
+    lowProfitPct: Math.max(0, +document.getElementById('admLowProfit').value || 0),
+    visiblePanels, salaries, departments, crTargets, hiddenFromMis
   };
   try{
     localStorage.setItem(ADMIN_SETTINGS_KEY, JSON.stringify(updated));
@@ -1727,6 +2463,7 @@ document.getElementById('adminDefaultsBtn').addEventListener('click', ()=>{
 document.getElementById('brandLabel').textContent = ADMIN.brandName;
 document.getElementById('dashTitle').textContent = ADMIN.dashboardTitle;
 
+applyPanelVisibility();
 loadData(false);
 if(refreshTimer) clearInterval(refreshTimer);
 if(ADMIN.autoRefresh){
